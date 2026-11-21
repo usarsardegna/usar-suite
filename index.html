@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>USAR-SAR01 SUITE</title>
+<meta name="theme-color" content="#1d2530">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="USAR Suite">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{
+  --bg:#141a22; --panel:#1d2530; --panel2:#25303d; --line:#334152;
+  --text:#eef2f6; --muted:#9aa8b8; --red:#c8102e; --red2:#e23a4f; --amber:#f2a900;
+  --radius:16px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+body{padding-bottom:env(safe-area-inset-bottom)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+
+/* ===== INTESTAZIONE ===== */
+header{background:var(--panel);border-bottom:3px solid var(--red);padding:calc(10px + env(safe-area-inset-top)) 0 10px}
+.hdr{display:flex;align-items:center;gap:10px}
+.logos{display:flex;gap:6px;flex-shrink:0}
+.logo{width:44px;height:44px;border-radius:50%;object-fit:contain;background:#fff;padding:2px}
+.logo-fb{width:44px;height:44px;border-radius:50%;display:none;align-items:center;justify-content:center;font-weight:800;font-size:11px;border:2px solid #fff}
+.logo-fb.vvf{background:var(--red);color:#fff}
+.logo-fb.usar{background:#fff;color:var(--red);border-color:var(--red)}
+.hdr-txt{line-height:1.1;min-width:0}
+.hdr-txt .l1{font-weight:800;font-size:17px;letter-spacing:.5px}
+.hdr-txt .l2{font-weight:700;font-size:12.5px;color:var(--amber);letter-spacing:.6px}
+.hdr-btns{margin-left:auto;display:flex;gap:8px}
+.hdr-btn{background:var(--panel2);border:1px solid var(--line);width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hdr-btn svg{width:19px;height:19px}
+
+.hero{display:block;width:110px;height:110px;margin:18px auto 0;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.45))}
+body.admin .hero{display:none}
+.suite-title{text-align:center;margin:10px 0 4px;font-weight:800;font-size:22px;letter-spacing:1px}
+.suite-title span{color:var(--red2)}
+.suite-sub{text-align:center;color:var(--muted);font-size:13.5px;margin-bottom:16px}
+
+/* ===== BARRA GESTIONE ===== */
+.adminbar{display:none;align-items:center;gap:10px;background:rgba(242,169,0,.12);border:1px solid rgba(242,169,0,.5);
+  border-radius:12px;padding:10px 12px;margin-bottom:14px;font-size:14px}
+.adminbar b{color:var(--amber)}
+.adminbar button{margin-left:auto;background:var(--amber);color:#1d2530;border:none;border-radius:10px;padding:8px 14px;font-weight:700}
+body.admin .adminbar{display:flex}
+
+/* ===== TESSERE ===== */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--radius);padding:16px 14px;text-decoration:none;color:var(--text);
+  min-height:150px;overflow:hidden}
+.tile:active{transform:scale(.97)}
+.tile::before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:var(--c,#c8102e)}
+.ico{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--c,#c8102e);flex-shrink:0}
+.ico svg{width:30px;height:30px;color:#fff}
+.ico img{width:100%;height:100%;object-fit:cover;border-radius:14px}
+.tile .t{font-weight:700;font-size:16px;line-height:1.2}
+.tile .d{font-size:12.5px;color:var(--muted);line-height:1.3}
+.tools{display:none;gap:6px;margin-top:auto;width:100%}
+body.admin .tools{display:flex}
+.tools button{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:7px 0;font-size:15px}
+.tools button.del{color:var(--red2)}
+.add{display:none;border:2px dashed var(--amber);background:transparent;color:var(--amber);align-items:center;justify-content:center;
+  font-weight:700;font-size:15px;min-height:150px;border-radius:var(--radius);flex-direction:column;gap:6px}
+.add span{font-size:34px;line-height:1}
+body.admin .add{display:flex}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:30px 10px;background:var(--panel);border-radius:var(--radius);border:1px solid var(--line)}
+.status{text-align:center;font-size:12px;color:var(--muted);margin:14px 0 4px;min-height:16px}
+
+footer{margin:24px 0 30px;text-align:center;font-size:12px;color:var(--muted);line-height:1.5}
+footer button{background:none;border:none;color:var(--amber);text-decoration:underline;font-size:12.5px;padding:4px}
+
+/* ===== FINESTRE ===== */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:20}
+.modal.open{display:flex}
+.sheet{background:var(--panel);width:100%;max-width:560px;border-radius:20px 20px 0 0;
+  padding:20px 18px calc(22px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}
+.sheet h2{margin:0 0 12px;font-size:19px}
+.sheet h3{font-size:15px;margin:16px 0 6px;color:var(--amber)}
+.sheet p,.sheet li{font-size:14px;line-height:1.5;color:#d5dde6}
+.warn{background:rgba(242,169,0,.1);border:1px solid rgba(242,169,0,.45);border-radius:12px;padding:12px;font-size:14px;line-height:1.5}
+.btn{width:100%;margin-top:14px;padding:13px;border-radius:12px;border:none;background:var(--red);color:#fff;font-weight:700;font-size:16px}
+.btn.sec{background:var(--panel2);border:1px solid var(--line);color:var(--text);margin-top:8px}
+
+/* PIN */
+.dots{display:flex;justify-content:center;gap:12px;margin:6px 0 10px}
+.dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--muted)}
+.dot.on{background:var(--amber);border-color:var(--amber)}
+.dots.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
+.msg{text-align:center;min-height:22px;font-size:14px;color:var(--red2);margin-bottom:8px}
+.msg.info{color:var(--muted)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:320px;margin:0 auto}
+.key{height:58px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:25px;font-weight:600}
+.key:active{background:var(--line)}
+.key.fn{font-size:15px;font-weight:700;color:var(--muted)}
+.key.go{background:var(--red);border-color:var(--red);color:#fff}
+.key:disabled{opacity:.4}
+.demo{margin-top:12px;font-size:12.5px;color:var(--muted);text-align:center;border:1px dashed var(--line);border-radius:10px;padding:8px}
+
+/* MODULO APP */
+label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-weight:600}
+.in{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:16px}
+.in:focus{outline:2px solid var(--amber);border-color:transparent}
+.picker{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.pk{aspect-ratio:1;border-radius:12px;border:2px solid transparent;background:var(--panel2);display:flex;align-items:center;justify-content:center}
+.pk svg{width:24px;height:24px}
+.pk.sel{border-color:var(--amber);background:var(--line)}
+.colors{display:flex;flex-wrap:wrap;gap:10px}
+.sw{width:38px;height:38px;border-radius:50%;border:3px solid transparent}
+.sw.sel{border-color:#fff;box-shadow:0 0 0 2px var(--amber)}
+.preview{display:flex;align-items:center;gap:12px;background:var(--panel2);border-radius:12px;padding:12px;margin-top:14px}
+.preview .t{font-weight:700}.preview .d{font-size:12.5px;color:var(--muted)}
+.err{color:var(--red2);font-size:14px;margin-top:8px;min-height:18px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hdr">
+    <div class="logos">
+      <img class="logo" src="logo-vvf.png" alt="VVF" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="logo-fb vvf">VVF</div>
+      <img class="logo" src="logo-usar.png" alt="USAR" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="logo-fb usar">USAR</div>
+    </div>
+    <div class="hdr-txt">
+      <div class="l1">VIGILI DEL FUOCO</div>
+      <div class="l2">USAR M SARDEGNA</div>
+    </div>
+    <div class="hdr-btns">
+      <button class="hdr-btn" onclick="openModal('info')" aria-label="Informazioni">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-5M12 8h.01"/></svg>
+      </button>
+      <button class="hdr-btn" onclick="openPin()" aria-label="Gestione">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <img class="hero" src="logo-usar.png" alt="Team USAR Sardegna" onerror="this.remove()">
+  <div class="suite-title">USAR-SAR01 <span>SUITE</span></div>
+  <div class="suite-sub">Tutte le app del team in un unico posto</div>
+
+  <div class="adminbar"><div><b>Modalità gestione</b><br><span id="adminName"></span></div><button onclick="exitAdmin()">Fine</button></div>
+
+  <div class="grid" id="grid"></div>
+  <div class="status" id="status"></div>
+
+  <footer>
+    Iniziativa non ufficiale del team USAR M Sardegna<br>
+    <button onclick="openModal('info')">Informazioni e avvertenze</button> · v<span id="ver"></span>
+  </footer>
+</main>
+
+<!-- INFO -->
+<div class="modal" id="info" onclick="if(event.target===this)closeModal('info')">
+  <div class="sheet">
+    <h2>USAR-SAR01 SUITE</h2>
+    <div class="warn"><b>Iniziativa non ufficiale.</b> Questa raccolta di app è uno strumento di supporto realizzato
+      dal personale del team USAR M Sardegna. Non sostituisce le procedure, la documentazione e le disposizioni
+      ufficiali del Corpo Nazionale dei Vigili del Fuoco.</div>
+    <h3>Come funziona</h3>
+    <ul>
+      <li>Tocca un'app per aprirla.</li>
+      <li>Ogni app ha il suo accesso: entra con le credenziali di quell'app.</li>
+      <li>Il lucchetto 🔒 in alto è solo per chi gestisce la suite.</li>
+    </ul>
+    <h3>Mettere l'icona sul telefono</h3>
+    <ul>
+      <li><b>Android (Chrome):</b> menu ⋮ → <i>Aggiungi a schermata Home</i> → <i>Installa</i>.</li>
+      <li><b>iPhone (Safari):</b> tasto Condividi → <i>Aggiungi alla schermata Home</i>.</li>
+    </ul>
+    <button class="btn" onclick="closeModal('info')">Chiudi</button>
+  </div>
+</div>
+
+<!-- PIN GESTORE -->
+<div class="modal" id="pinM" onclick="if(event.target===this)closeModal('pinM')">
+  <div class="sheet">
+    <h2 style="text-align:center">PIN gestione suite</h2>
+    <div class="dots" id="dots"></div>
+    <div class="msg" id="msg"></div>
+    <div class="pad" id="pad"></div>
+    <div class="demo" id="demoBox" style="display:none"></div>
+    <button class="btn sec" onclick="closeModal('pinM')">Annulla</button>
+  </div>
+</div>
+
+<!-- MODULO APP -->
+<div class="modal" id="formM">
+  <div class="sheet">
+    <h2 id="formTitle">Nuova app</h2>
+    <label>Nome (breve, si legge sulla tessera)</label>
+    <input class="in" id="fNome" maxlength="28" placeholder="es. Taglie DPI">
+    <label>Descrizione (una riga)</label>
+    <input class="in" id="fDesc" maxlength="50" placeholder="es. Taglie giacca, pantalone, scarpe">
+    <label>Link dell'app</label>
+    <input class="in" id="fLink" inputmode="url" placeholder="https://...">
+    <label>Icona</label>
+    <div class="picker" id="fIcons"></div>
+    <label>Colore</label>
+    <div class="colors" id="fColors"></div>
+    <div class="preview" id="fPrev"></div>
+    <div class="err" id="fErr"></div>
+    <button class="btn" id="fSave" onclick="saveForm()">Salva</button>
+    <button class="btn sec" onclick="closeModal('formM')">Annulla</button>
+  </div>
+</div>
+
+<!-- CONFERMA -->
+<div class="modal" id="askM">
+  <div class="sheet">
+    <h2 id="askT"></h2>
+    <p id="askP"></p>
+    <button class="btn" id="askOk">Conferma</button>
+    <button class="btn sec" onclick="closeModal('askM')">Annulla</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIGURAZIONE
+   API_URL = link /exec dello script della suite (Code.gs).
+   Se resta vuoto, la suite gira in MODALITÀ DIMOSTRAZIONE.
+   ===================================================================== */
+const CONFIG = { VERSIONE:"1.2", API_URL:"https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec", PIN_LEN:6, TENTATIVI_MAX:5, BLOCCO_SECONDI:60 };
+
+const DEMO_APPS = [
+  {id:"ATTIVAZIONI", nome:"Attivazioni", descrizione:"Attivazione squadre e disponibilità", link:"https://script.google.com/macros/s/AKfycbz5wIB8mtlSBbhbFNb8Ja1Aulrw1O0ADZrLQPXGOlhhgLcWAuCrj4iU4eic2ksMICbp/exec", icona:"attivazioni", colore:"#c8102e"},
+  {id:"LOGISTICA", nome:"Logistica", descrizione:"Uscite e rientri attrezzature", link:"https://script.google.com/macros/s/AKfycbzs_NzmKsiYXlMZbpcawDQ2B6WHuvmB1I72mov9e67tcyQV24WyNP12KipL745e3VgF/exec", icona:"logistica", colore:"#e07a10"},
+  {id:"ACCESSI", nome:"Accessi Area Rossa", descrizione:"Ingressi e uscite dal cantiere", link:"https://script.google.com/macros/s/AKfycbyceEVCuIvK-pg2gclZAeCnGt0t6mxpqrleF-TzbrlEO19s1qntiABrrHmGt9QRMyTnKA/exec", icona:"accessi", colore:"#a3141f"},
+  {id:"USARTAC", nome:"USAR-TAC", descrizione:"Edificio 3D e settori di ricerca", link:"https://usarsardegna.github.io/usar-tac/", icona:"tac", colore:"#1f6fb2"}
+];
+const DEMO_PIN = "123456";
+
+const ICONS = {
+  attivazioni:'<path d="M7 18v-6a5 5 0 0 1 10 0v6"/><path d="M5 21h14v-3H5z"/><path d="M12 2v2M4.2 5.2l1.4 1.4M19.8 5.2l-1.4 1.4M2 12h2M20 12h2"/>',
+  logistica:'<path d="M1 4h14v12H1z"/><path d="M15 8h4l4 4v4h-8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>',
+  accessi:'<path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/>',
+  tac:'<path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-4h6v4M9 10h2M13 10h2M9 14h2M13 14h2"/>',
+  dpi:'<path d="M2 18h20l-1 3H3z"/><path d="M4 18v-3a8 8 0 0 1 16 0v3"/><path d="M12 7V4M8.5 8.5L8 12M15.5 8.5L16 12"/>',
+  documenti:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/>',
+  mappa:'<path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/>',
+  meteo:'<path d="M17.5 19H7a5 5 0 1 1 1-9.9A6 6 0 0 1 19 11a4 4 0 0 1-1.5 8z"/>',
+  radio:'<rect x="5" y="8" width="14" height="14" rx="2"/><path d="M15 8V2M9 13h6M9 17h6"/>',
+  telefono:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
+  persone:'<circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M16 3.1a4 4 0 0 1 0 7.8M22 21v-2a4 4 0 0 0-3-3.9"/>',
+  lista:'<path d="M9 6h12M9 12h12M9 18h12"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>',
+  calendario:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  attrezzi:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/>',
+  app:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'
+};
+const COLORS = ["#c8102e","#a3141f","#e07a10","#f2a900","#2fb36d","#13836b","#1f6fb2","#5b4bc4","#4a5868","#8a5a2b"];
+
+const store = {
+  get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const K_APPS="usarSuite.app", K_LOCK="usarSuite.blocco";
+const $ = id => document.getElementById(id);
+const DEMO = !CONFIG.API_URL;
+
+let apps = [];          // elenco attuale
+let adminPin = "";      // solo in memoria: chiudendo la pagina si esce dalla gestione
+let adminNome = "";
+let pin = "";
+
+/* ================= COLLEGAMENTO AL FOGLIO ================= */
+async function api(azione, dati){
+  if(DEMO) return demoApi(azione, dati||{});
+  if(azione==="elenco"){
+    const r = await fetch(CONFIG.API_URL+"?azione=elenco&t="+Date.now());
+    return r.json();
+  }
+  const r = await fetch(CONFIG.API_URL, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body: JSON.stringify(Object.assign({azione, pin:adminPin}, dati||{}))});
+  return r.json();
+}
+/* Simulazione per la dimostrazione: le modifiche restano solo su questo telefono */
+async function demoApi(azione, d){
+  await new Promise(r=>setTimeout(r,250));
+  let list = store.get("usarSuite.demo") || DEMO_APPS.slice();
+  const p = d.pin!==undefined ? d.pin : adminPin;
+  if(azione==="elenco") return {ok:true, apps:list};
+  if(p!==DEMO_PIN) return {ok:false, errore:"PIN non valido"};
+  if(azione==="verifica") return {ok:true, nome:"Referente suite (prova)"};
+  if(azione==="salva"){
+    const a = d.app;
+    if(a.id){ list = list.map(x=>x.id===a.id?Object.assign({},x,a):x); }
+    else { a.id = "APP"+Date.now(); list.push(a); }
+  }
+  if(azione==="elimina") list = list.filter(x=>x.id!==d.id);
+  if(azione==="ordina") list = d.ordine.map(id=>list.find(x=>x.id===id)).filter(Boolean);
+  store.set("usarSuite.demo", list);
+  return {ok:true, apps:list};
+}
+
+/* ================= TESSERE ================= */
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function iconHtml(ic){
+  ic = String(ic||"").trim();
+  if(/^https:\/\//i.test(ic)) return `<img src="${esc(ic)}" alt="">`;
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONS[ic.toLowerCase()]||ICONS.app}</svg>`;
+}
+function safeColor(c){ return /^#[0-9a-f]{3,8}$/i.test(String(c||"").trim()) ? c.trim() : "#c8102e"; }
+function safeLink(l){ l=String(l||"").trim(); if(l && !/^https?:\/\//i.test(l)) l="https://"+l; return /^https:\/\//i.test(l)?l:"#"; }
+
+function render(){
+  const admin = !!adminPin;
+  let html = apps.map((a,i)=>`
+    <a class="tile" href="${esc(safeLink(a.link))}" target="_blank" rel="noopener" style="--c:${safeColor(a.colore)}"
+       ${admin?'onclick="event.preventDefault()"':''}>
+      <div class="ico">${iconHtml(a.icona)}</div>
+      <div><div class="t">${esc(a.nome)}</div><div class="d">${esc(a.descrizione)}</div></div>
+      <div class="tools">
+        <button onclick="move(${i},-1)" aria-label="Sposta prima" ${i===0?'disabled':''}>◀</button>
+        <button onclick="openForm(${i})" aria-label="Modifica">✎</button>
+        <button onclick="move(${i},1)" aria-label="Sposta dopo" ${i===apps.length-1?'disabled':''}>▶</button>
+        <button class="del" onclick="askDelete(${i})" aria-label="Elimina">🗑</button>
+      </div>
+    </a>`).join("");
+  if(!apps.length && !admin) html = '<div class="empty">Nessuna app disponibile al momento.</div>';
+  html += '<button class="add" onclick="openForm(-1)"><span>+</span>Aggiungi app</button>';
+  $("grid").innerHTML = html;
+}
+function setStatus(t){ $("status").textContent = [DEMO?"Modalità dimostrazione":"", t||""].filter(Boolean).join(" · "); }
+
+async function load(){
+  const cached = store.get(K_APPS);
+  if(cached){ apps = cached.apps; render(); setStatus("Aggiornamento…"); }
+  try{
+    const r = await api("elenco");
+    if(r.ok){ apps = r.apps; store.set(K_APPS,{apps, quando:Date.now()}); render(); setStatus(""); }
+    else setStatus("Errore nel caricare l'elenco");
+  }catch(e){
+    if(cached){
+      const t = new Date(cached.quando);
+      setStatus("Offline · elenco del "+t.toLocaleDateString("it-IT")+" "+t.toLocaleTimeString("it-IT",{hour:"2-digit",minute:"2-digit"}));
+    } else setStatus("Nessuna connessione");
+  }
+}
+
+/* ================= FINESTRE ================= */
+function openModal(id){ $(id).classList.add("open"); }
+function closeModal(id){ $(id).classList.remove("open"); }
+
+/* ================= PIN GESTORE ================= */
+function buildPad(){
+  $("dots").innerHTML = Array.from({length:CONFIG.PIN_LEN},()=>'<div class="dot"></div>').join("");
+  $("pad").innerHTML = ["1","2","3","4","5","6","7","8","9","C","0","OK"].map(k=>
+    k==="C" ? '<button class="key fn" data-k="C">Cancella</button>' :
+    k==="OK" ? '<button class="key fn go" data-k="OK">Entra</button>' :
+    `<button class="key" data-k="${k}">${k}</button>`).join("");
+  $("pad").onclick = e=>{
+    const b = e.target.closest("button"); if(!b||b.disabled) return;
+    const k = b.dataset.k;
+    if(k==="C") pin = pin.slice(0,-1);
+    else if(k==="OK"){ tryPin(); return; }
+    else if(pin.length<CONFIG.PIN_LEN) pin += k;
+    paintDots();
+    if(pin.length===CONFIG.PIN_LEN) tryPin();
+  };
+  if(DEMO){ $("demoBox").style.display="block"; $("demoBox").innerHTML="<b>Dimostrazione:</b> PIN gestione <b>123456</b>"; }
+}
+function paintDots(){ [...$("dots").children].forEach((d,i)=>d.classList.toggle("on",i<pin.length)); }
+function setMsg(t,info){ $("msg").textContent=t||""; $("msg").className="msg"+(info?" info":""); }
+function padDisabled(v){ [...$("pad").children].forEach(b=>b.disabled=v); }
+function lockState(){ return store.get(K_LOCK)||{fail:0,until:0}; }
+function checkLock(){
+  const s=lockState(), now=Date.now();
+  if(s.until>now){ padDisabled(true); setMsg(`Troppi tentativi. Riprova tra ${Math.ceil((s.until-now)/1000)} s`); setTimeout(checkLock,1000); return true; }
+  padDisabled(false);
+  if(s.until){ store.set(K_LOCK,{fail:0,until:0}); setMsg(""); }
+  return false;
+}
+function openPin(){
+  if(adminPin){ return; }
+  pin=""; paintDots(); setMsg(""); openModal("pinM"); checkLock();
+}
+async function tryPin(){
+  if(checkLock()) return;
+  if(pin.length<CONFIG.PIN_LEN){ setMsg(`Il PIN ha ${CONFIG.PIN_LEN} cifre`); return; }
+  padDisabled(true); setMsg("Verifica…",true);
+  try{
+    const r = await api("verifica",{pin});
+    if(r.ok){
+      store.set(K_LOCK,{fail:0,until:0});
+      adminPin = pin; adminNome = r.nome||""; pin=""; paintDots();
+      closeModal("pinM"); document.body.classList.add("admin");
+      $("adminName").textContent = adminNome; render();
+    } else {
+      const s=lockState(); s.fail++;
+      if(s.fail>=CONFIG.TENTATIVI_MAX){ s.until=Date.now()+CONFIG.BLOCCO_SECONDI*1000; s.fail=0; }
+      store.set(K_LOCK,s);
+      $("dots").classList.add("shake"); setTimeout(()=>$("dots").classList.remove("shake"),400);
+      pin=""; paintDots(); setMsg(r.errore||"PIN non valido"); padDisabled(false); checkLock();
+    }
+  }catch(e){ padDisabled(false); setMsg("Nessuna connessione. Riprova."); }
+}
+function exitAdmin(){ adminPin=""; adminNome=""; document.body.classList.remove("admin"); render(); }
+
+/* ================= AGGIUNGI / MODIFICA ================= */
+let editIdx=-1, fIcon="app", fColor=COLORS[0];
+function openForm(i){
+  editIdx=i;
+  const a = i>=0 ? apps[i] : {nome:"",descrizione:"",link:"",icona:"app",colore:COLORS[0]};
+  $("formTitle").textContent = i>=0 ? "Modifica app" : "Nuova app";
+  $("fNome").value=a.nome; $("fDesc").value=a.descrizione; $("fLink").value=a.link;
+  fIcon = ICONS[a.icona]?a.icona:"app"; fColor = safeColor(a.colore);
+  $("fErr").textContent=""; drawPickers(); openModal("formM");
+}
+function drawPickers(){
+  $("fIcons").innerHTML = Object.keys(ICONS).map(k=>`<button class="pk ${k===fIcon?'sel':''}" onclick="fIcon='${k}';drawPickers()" aria-label="${k}">${iconHtml(k)}</button>`).join("");
+  $("fColors").innerHTML = COLORS.map(c=>`<button class="sw ${c===fColor?'sel':''}" style="background:${c}" onclick="fColor='${c}';drawPickers()" aria-label="colore"></button>`).join("");
+  $("fPrev").innerHTML = `<div class="ico" style="--c:${fColor}">${iconHtml(fIcon)}</div><div><div class="t">${esc($("fNome").value||"Nome app")}</div><div class="d">${esc($("fDesc").value||"Descrizione")}</div></div>`;
+}
+["fNome","fDesc"].forEach(id=>document.addEventListener("input",e=>{ if(e.target.id===id) drawPickers(); }));
+async function saveForm(){
+  const nome=$("fNome").value.trim(), descrizione=$("fDesc").value.trim();
+  let link=$("fLink").value.trim();
+  if(!nome){ $("fErr").textContent="Scrivi il nome dell'app"; return; }
+  if(link && !/^https?:\/\//i.test(link)) link="https://"+link;
+  if(!/^https:\/\/[^\s.]+\.[^\s]+$/i.test(link)){ $("fErr").textContent="Il link non è valido (deve iniziare con https://)"; return; }
+  const app = {nome, descrizione, link, icona:fIcon, colore:fColor};
+  if(editIdx>=0) app.id = apps[editIdx].id;
+  $("fSave").disabled=true; $("fErr").textContent="";
+  try{
+    const r = await api("salva",{app});
+    if(r.ok){ apps=r.apps; store.set(K_APPS,{apps,quando:Date.now()}); render(); closeModal("formM"); setStatus("Salvato ✓"); }
+    else $("fErr").textContent = r.errore||"Errore nel salvataggio";
+  }catch(e){ $("fErr").textContent="Nessuna connessione. Riprova."; }
+  $("fSave").disabled=false;
+}
+function askDelete(i){
+  $("askT").textContent = "Eliminare "+apps[i].nome+"?";
+  $("askP").textContent = "La tessera sparisce dalla suite per tutti. L'app vera e propria non viene toccata.";
+  $("askOk").onclick = async ()=>{
+    closeModal("askM");
+    try{ const r = await api("elimina",{id:apps[i].id});
+      if(r.ok){ apps=r.apps; store.set(K_APPS,{apps,quando:Date.now()}); render(); setStatus("Eliminata ✓"); }
+      else setStatus(r.errore||"Errore"); }catch(e){ setStatus("Nessuna connessione"); }
+  };
+  openModal("askM");
+}
+async function move(i,dir){
+  const j=i+dir; if(j<0||j>=apps.length) return;
+  const nuovo = apps.slice(); [nuovo[i],nuovo[j]]=[nuovo[j],nuovo[i]];
+  apps = nuovo; render();
+  try{ const r = await api("ordina",{ordine:nuovo.map(a=>a.id)});
+    if(r.ok){ apps=r.apps; store.set(K_APPS,{apps,quando:Date.now()}); render(); }
+    else { setStatus(r.errore||"Errore"); load(); } }catch(e){ setStatus("Nessuna connessione"); load(); }
+}
+
+/* ================= AVVIO ================= */
+$("ver").textContent = CONFIG.VERSIONE;
+buildPad(); load();
+if("serviceWorker" in navigator && location.protocol==="https:"){
+  try{ navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch(e){}
+}
+</script>
+</body>
+</html>
