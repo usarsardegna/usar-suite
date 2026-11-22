@@ -614,7 +614,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.6",
+  VERSIONE: "2.6.1",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
@@ -903,7 +903,7 @@ function showHome(statusTxt){
   apps = d.apps||[];
   $("btnAdmin").hidden = !d.admin;
   VISTE.forEach(x=>$(x).hidden = x!=="home");
-  render(); aggiornaStrip(); renderAvvBanner(); caricaMeteo(); setStatus(statusTxt);
+  render(); aggiornaStrip(); renderAvvBanner(); caricaMeteo(); aggiornaPosizioneAuto(); setStatus(statusTxt);
   popupUrgente();
 }
 function render(){
@@ -1338,7 +1338,7 @@ function renderMeteoChip(){
 }
 function renderMeteo(ricarica){
   const L=luogo();
-  $("mtLuogo").innerHTML=esc(L.nome)+(L.sede?"<br>(sede)":"");
+  $("mtLuogo").innerHTML=esc(L.nome)+(L.sede?"<br>(sede)":(L.t?"<br>agg. "+new Date(L.t).toLocaleTimeString("it-IT",{hour:"2-digit",minute:"2-digit"}):""));
   $("mtPos").textContent = L.sede ? "📍 La mia posizione" : "🏠 Torna alla sede";
   $("mtWindy").href=`https://www.windy.com/?${L.lat},${L.lon},10`;
   const d=meteoDati;
@@ -1364,9 +1364,24 @@ function meteoPosizione(){
   if(!navigator.geolocation){ setStatus("Posizione non disponibile"); return; }
   $("mtPos").textContent="📍 Ricerca…";
   navigator.geolocation.getCurrentPosition(p=>{
-    store.set(K_POS,{lat:+p.coords.latitude.toFixed(3),lon:+p.coords.longitude.toFixed(3),nome:"La tua posizione"});
+    store.set(K_POS,{lat:+p.coords.latitude.toFixed(3),lon:+p.coords.longitude.toFixed(3),nome:"La tua posizione",t:Date.now()});
     caricaMeteo(true); renderMeteo(false);
   },()=>{ $("mtPos").textContent="📍 La mia posizione"; alertPos(); },{enableHighAccuracy:false,timeout:10000});
+}
+/* Se è attiva "La mia posizione": la aggiorna da sola a ogni apertura (solo se il permesso
+   è già stato dato, quindi senza richieste). Se per 12 ore non riesce, torna alla sede. */
+const POS_MAX_ORE=12;
+async function aggiornaPosizioneAuto(){
+  const P=store.get(K_POS); if(!P) return;
+  if(!P.t){ P.t=Date.now(); store.set(K_POS,P); }
+  const scaduta=()=>{ if(Date.now()-P.t > POS_MAX_ORE*36e5){ store.del(K_POS); caricaMeteo(true); if(!$("meteo").hidden) renderMeteo(false); } };
+  let concesso=false;
+  try{ if(navigator.permissions && navigator.permissions.query){ concesso=(await navigator.permissions.query({name:"geolocation"})).state==="granted"; } }catch(e){}
+  if(!concesso || !navigator.geolocation){ scaduta(); return; }
+  navigator.geolocation.getCurrentPosition(p=>{
+    store.set(K_POS,{lat:+p.coords.latitude.toFixed(3),lon:+p.coords.longitude.toFixed(3),nome:"La tua posizione",t:Date.now()});
+    caricaMeteo(true); if(!$("meteo").hidden) renderMeteo(false);
+  }, scaduta, {enableHighAccuracy:false,timeout:10000,maximumAge:10*60e3});
 }
 function alertPos(){ $("mtLuogo").innerHTML='<span style="color:var(--red2)">Consenti la posizione nel browser</span>'; }
 function demoMeteo(){
