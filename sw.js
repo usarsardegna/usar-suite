@@ -1,5 +1,5 @@
 // USAR-SAR01 SUITE - permette di aprire la suite anche senza rete
-const CACHE = 'usar-suite-v2';
+const CACHE = 'usar-suite-v3';
 const FILES = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'logo-vvf.png', 'logo-usar.png',
   'app-attivazioni.png', 'app-logistica.png', 'app-accessi.png', 'app-usartac.png'];
 
@@ -16,7 +16,8 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin) return;
   e.respondWith(
-    fetch(e.request)
+    // la pagina e i file della suite: chiedo sempre la versione nuova (niente copia vecchia del browser)
+    fetch(e.request, { cache: 'no-cache' })
       .then(r => { const copia = r.clone(); caches.open(CACHE).then(c => c.put(e.request, copia)); return r; })
       .catch(() => caches.match(e.request).then(r => r || caches.match('index.html')))
   );
