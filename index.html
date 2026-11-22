@@ -24,7 +24,7 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-famil
 body{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;padding-bottom:env(safe-area-inset-bottom);
   background:radial-gradient(1200px 500px at 50% -200px, rgba(200,16,46,.28), transparent 70%), var(--bg)}
 main{flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto;width:100%}
-button,input,select{font:inherit;color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 .wrap{max-width:560px;margin:0 auto;padding:0 16px}
 @media (min-width:900px){ .wrap{max-width:980px} }
@@ -92,7 +92,12 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
   .tile .t{font-size:17px} .tile .d{font-size:13px}
 }
 @media (min-width:900px){ .grid{grid-template-columns:repeat(4,1fr)} }
+@media (max-height:780px) and (max-width:699px){
+  .tile .d{display:none}
+  .hero .dt{font-size:12px}
+}
 @media (max-width:380px){
+  .guide-strip .gs-n .lbl{display:none}
   .hdr-txt .l1{font-size:14px;white-space:nowrap} .hdr-txt .l2{font-size:10.5px;white-space:nowrap} .logo{width:38px;height:38px} .hdr{gap:8px}
   .hero-acts button{padding:6px 8px;font-size:12px}
 }
@@ -125,6 +130,120 @@ body.admin .add{display:flex}
 
 footer{flex-shrink:0;margin:auto 0 0;padding:8px 0 10px;text-align:center;font-size:11.5px;color:var(--muted);line-height:1.4}
 footer button{background:none;border:none;color:var(--amber);text-decoration:underline;font-size:12.5px;padding:4px}
+
+/* ===== GUIDE ===== */
+.guide-strip{flex-shrink:0;display:flex;align-items:center;gap:10px;width:100%;margin:0 0 12px;padding:11px 14px;border-radius:14px;
+  background:linear-gradient(90deg,rgba(242,169,0,.16),rgba(242,169,0,.04));border:1px solid rgba(242,169,0,.45);color:var(--text);font-size:15px;text-align:left}
+.guide-strip .gs-ico{font-size:20px}
+.guide-strip b{white-space:nowrap}
+.guide-strip .gs-n{white-space:nowrap;margin-left:auto;color:var(--amber);font-weight:700;font-size:13px}
+.guide-strip .gs-new{background:var(--red);color:#fff;font-size:11px;font-weight:800;border-radius:20px;padding:2px 8px;margin-left:6px}
+#guide{flex:1;min-height:0;display:flex;flex-direction:column}
+.g-top{flex-shrink:0;display:flex;align-items:center;gap:10px;margin:12px 0 10px}
+.g-top h2{margin:0;font-size:20px}
+.back{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px;font-weight:600}
+.g-search{flex-shrink:0;position:relative;margin-bottom:10px}
+.g-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted)}
+.g-search input{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:13px 44px 13px 44px;font-size:16px}
+.g-search input:focus{outline:2px solid var(--amber);border-color:transparent}
+.g-search .x{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:18px;padding:6px 10px}
+.chips{flex-shrink:0;display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:8px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:6px 12px 6px 6px;font-size:13.5px;font-weight:600;white-space:nowrap}
+.chip.noimg{padding-left:12px}
+.chip img{width:24px;height:24px;object-fit:contain}
+.chip.on{background:var(--c,#c8102e);border-color:var(--c,#c8102e);color:#fff}
+.chip .n{opacity:.7;font-weight:700}
+.g-bar{flex-shrink:0;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.g-bar .chips{margin:0;flex:1}
+.g-bar .chip{padding:5px 10px;font-size:12.5px}
+.g-top .g-sort{margin-left:auto}
+.g-sort{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:7px 8px;font-size:13px}
+.g-list{flex:1;min-height:0;overflow-y:auto;padding-bottom:10px}
+.g-group{display:flex;align-items:center;gap:8px;margin:12px 2px 8px;font-size:12.5px;font-weight:800;letter-spacing:.8px;color:var(--muted)}
+.g-group:first-child{margin-top:2px}
+.g-group img{width:26px;height:26px;object-fit:contain}
+.g-group .ln{flex:1;height:1px;background:var(--line)}
+.gcard{position:relative;display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:12px 12px 12px 16px;margin-bottom:8px;text-decoration:none;color:var(--text);overflow:hidden}
+.gcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c,#c8102e)}
+.gcard:active{transform:scale(.98)}
+.gcard .gi{width:44px;height:44px;border-radius:12px;background:var(--panel2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.gcard .gt{font-weight:700;font-size:15px;line-height:1.25}
+.gcard .gd{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.3}
+.gcard .gm{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;font-size:11.5px;color:var(--muted);align-items:center}
+.badge{border-radius:6px;padding:2px 7px;font-weight:700;font-size:11px;background:var(--panel2);color:#cfd8e3}
+.badge.new{background:var(--red);color:#fff}
+.gcard .go{margin-left:auto;color:var(--muted);font-size:20px;flex-shrink:0}
+.gcard mark{background:rgba(242,169,0,.35);color:inherit;border-radius:3px;padding:0 1px}
+.gcard .gtools{display:none;gap:6px;margin-left:auto;flex-shrink:0}
+body.admin .gcard .gtools{display:flex} body.admin .gcard .go{display:none}
+.gtools button{background:var(--panel2);border:1px solid var(--line);border-radius:9px;width:38px;height:38px}
+.gtools .del{color:var(--red2)}
+.g-add{display:none;width:100%;border:2px dashed var(--amber);background:transparent;color:var(--amber);border-radius:14px;padding:14px;font-weight:700;font-size:15px;margin-top:4px}
+body.admin .g-add{display:block}
+.g-empty{text-align:center;color:var(--muted);padding:34px 10px;font-size:14px;line-height:1.5}
+.g-empty b{display:block;font-size:30px;margin-bottom:6px}
+.hint{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.4}
+
+/* ===== METEO (chip) ===== */
+.meteo-chip{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;margin-top:6px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.22);
+  border-radius:20px;padding:4px 10px;font-size:13px;font-weight:600;color:#fff}
+.meteo-chip:empty{display:none}
+/* ===== AVVISI ===== */
+.avv-banner{flex-shrink:0;display:flex;align-items:center;gap:10px;width:100%;margin:0 0 10px;padding:10px 12px;border-radius:14px;text-align:left;
+  background:var(--panel);border:1px solid var(--line);color:var(--text);position:relative;overflow:hidden}
+.avv-banner::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--pc,#1f6fb2)}
+.avv-banner .ai{font-size:22px;flex-shrink:0;padding-left:4px}
+.avv-banner .at{font-weight:700;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.avv-banner .as{font-size:12px;color:var(--muted)}
+.avv-banner .ar{margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0;color:var(--muted)}
+.dotnew{background:var(--red);color:#fff;font-size:10.5px;font-weight:800;border-radius:20px;padding:2px 7px}
+.pr-Normale{--pc:#1f6fb2} .pr-Importante{--pc:#f2a900} .pr-Urgente{--pc:#e8384f}
+.avv-banner.pr-Urgente{background:linear-gradient(90deg,rgba(232,56,79,.22),var(--panel) 70%);border-color:rgba(232,56,79,.6)}
+.view{flex:1;min-height:0;display:flex;flex-direction:column}
+.v-list{flex:1;min-height:0;overflow-y:auto;padding-bottom:10px}
+.acard{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 12px 12px 18px;margin-bottom:10px;overflow:hidden}
+.acard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--pc)}
+.acard.unread{border-color:rgba(242,169,0,.55)}
+.acard .ah{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.acard .apr{font-size:11px;font-weight:800;border-radius:6px;padding:2px 7px;background:var(--pc);color:#fff}
+.acard.pr-Importante .apr{color:#1b232e}
+.acard .adt{font-size:12px;color:var(--muted)}
+.acard .att{font-weight:800;font-size:16px;margin:6px 0 4px}
+.acard .atx{font-size:14px;line-height:1.5;color:#d5dde6;white-space:pre-wrap}
+.acard .aft{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:var(--muted)}
+.acard .gtools{display:none;margin-left:auto;gap:6px}
+body.admin .acard .gtools{display:flex}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;padding:11px 6px;border-radius:12px;border:2px solid var(--line);background:var(--panel2);font-weight:700;font-size:14px}
+.seg.tg button{--pc:#2aa1da;font-size:13px;padding:10px 4px}
+.seg button:disabled{opacity:.35}
+.seg button.on{border-color:var(--pc);background:color-mix(in srgb,var(--pc) 25%,var(--panel2))}
+textarea.in{min-height:110px;resize:vertical;font-size:16px;line-height:1.4}
+.check{display:flex;align-items:center;gap:10px;margin-top:14px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:15px}
+.check input{width:22px;height:22px;accent-color:var(--amber)}
+.popup-urg{border-top:6px solid #e8384f}
+/* ===== METEO (pagina) ===== */
+.mt-now{flex-shrink:0;display:flex;align-items:center;gap:14px;background:linear-gradient(120deg,#1f4f8a,#1b2a40);border-radius:var(--radius);padding:14px;margin-bottom:10px}
+.mt-now .big{font-size:44px;line-height:1}
+.mt-now .tp{font-size:34px;font-weight:800}
+.mt-now .ds{font-size:13px;opacity:.85}
+.mt-grid{flex-shrink:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.mt-box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}
+.mt-box .k{font-size:11.5px;color:var(--muted);font-weight:700;letter-spacing:.5px}
+.mt-box .v{font-size:18px;font-weight:800;margin-top:2px}
+.mt-box .arrow{display:inline-block;transition:transform .3s}
+.mt-hours{flex-shrink:0;display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;scrollbar-width:none}
+.mt-hours::-webkit-scrollbar{display:none}
+.mt-h{flex-shrink:0;width:58px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px 4px;text-align:center;font-size:12px}
+.mt-h b{display:block;font-size:14px}
+.mt-map{flex:1;min-height:180px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:var(--panel);position:relative}
+.mt-map iframe{width:100%;height:100%;border:0;display:block}
+.mt-map .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--muted);text-align:center;font-size:14px;padding:20px}
+.mt-acts{flex-shrink:0;display:flex;gap:8px;margin-top:10px}
+.mt-acts a,.mt-acts button{flex:1;text-align:center;text-decoration:none;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 6px;font-size:14px;font-weight:600;color:var(--text)}
+.mt-warn{color:var(--amber);font-weight:800}
 
 /* ===== FINESTRE ===== */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center;z-index:20}
@@ -233,6 +352,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
         <div class="hi" id="hiTxt">Ciao,</div>
         <div class="nm" id="uName"></div>
         <div class="dt" id="uDate"></div>
+        <button class="meteo-chip" id="meteoChip" onclick="showView('meteo')"></button>
       </div>
       <div class="hero-acts">
         <button onclick="startCambioPin()">🔑 PIN</button>
@@ -241,10 +361,45 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
     </div>
 
     <div class="adminbar" id="adminbar" hidden><div><b>Modalità gestione</b><br>Aggiungi, modifica, sposta le app</div><button onclick="toggleAdmin()">Fine</button></div>
+    <button class="avv-banner" id="avvBanner" onclick="showView('avvisi')" hidden></button>
+    <button class="guide-strip" onclick="showGuide()"><span class="gs-ico">📚</span><b>Guide e manuali</b><span class="gs-n" id="nGuide"></span>›</button>
     <div class="section"><span>LE TUE APP</span><span id="nApps"></span></div>
     <div class="grid" id="grid"></div>
     <div class="status" id="status"></div>
 
+  </section>
+
+  <!-- ================= AVVISI ================= -->
+  <section id="avvisi" class="view" hidden>
+    <div class="g-top"><button class="back" onclick="backHome()">← App</button><h2>📢 Avvisi</h2></div>
+    <div class="v-list" id="aList"></div>
+  </section>
+
+  <!-- ================= METEO ================= -->
+  <section id="meteo" class="view" hidden>
+    <div class="g-top"><button class="back" onclick="backHome()">← App</button><h2>🌦️ Meteo</h2><span id="mtLuogo" style="margin-left:auto;color:var(--muted);font-size:13px;text-align:right"></span></div>
+    <div class="mt-now" id="mtNow"></div>
+    <div class="mt-grid" id="mtGrid"></div>
+    <div class="mt-hours" id="mtHours"></div>
+    <div class="mt-map" id="mtMap"></div>
+    <div class="mt-acts">
+      <button id="mtPos" onclick="meteoPosizione()">📍 La mia posizione</button>
+      <a id="mtWindy" href="https://www.windy.com" target="_blank" rel="noopener">🌬️ Apri Windy</a>
+    </div>
+  </section>
+
+  <!-- ================= GUIDE ================= -->
+  <section id="guide" hidden>
+    <div class="g-top"><button class="back" onclick="backHome()">← App</button><h2>📚 Guide</h2>
+      <select class="g-sort" id="gSort" aria-label="Ordina"><option value="app">Per app</option><option value="recenti">Più recenti</option><option value="az">A → Z</option></select></div>
+    <div class="g-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="gq" type="text" enterkeyhint="search" placeholder="Cerca guida o app…" autocomplete="off">
+      <button class="x" id="gqx" onclick="$('gq').value='';renderGuide()" hidden>✕</button>
+    </div>
+    <div class="chips" id="gApps"></div>
+    <div class="g-bar"><div class="chips" id="gTipi"></div></div>
+    <div class="g-list" id="gList"></div>
   </section>
 
   <footer class="wrap">
@@ -308,6 +463,74 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
   </div>
 </div>
 
+<!-- MODULO GUIDA -->
+<div class="modal" id="guideM">
+  <div class="sheet">
+    <h2 id="gfTitle">Nuova guida</h2>
+    <label>Titolo</label>
+    <input class="in" id="gfTitolo" maxlength="70" placeholder="es. Guida uso Attivazioni">
+    <label>App di riferimento</label>
+    <select class="in" id="gfApp"></select>
+    <label>Tipo</label>
+    <select class="in" id="gfTipo"></select>
+    <label>Descrizione (facoltativa)</label>
+    <input class="in" id="gfDesc" maxlength="90" placeholder="es. Come rispondere a un'attivazione">
+    <label>Link del PDF</label>
+    <input class="in" id="gfLink" inputmode="url" placeholder="https://drive.google.com/...">
+    <div class="hint">Su Drive: tasto destro sul PDF → <b>Condividi</b> → Accesso generale: <b>Chiunque abbia il link</b> → <b>Copia link</b>.</div>
+    <div class="err" id="gfErr"></div>
+    <button class="btn" id="gfSave" onclick="saveGuida()">Salva</button>
+    <button class="btn sec" onclick="closeModal('guideM')">Annulla</button>
+  </div>
+</div>
+
+<!-- MODULO AVVISO -->
+<div class="modal" id="avvM">
+  <div class="sheet">
+    <h2 id="afTitle">Nuovo avviso</h2>
+    <label>Titolo</label>
+    <input class="in" id="afTitolo" maxlength="60" placeholder="es. Esercitazione sabato 29">
+    <label>Testo</label>
+    <textarea class="in" id="afTesto" maxlength="600" placeholder="es. Ritrovo in sede alle 8:00 con DPI completi."></textarea>
+    <label>Priorità</label>
+    <div class="seg" id="afPr">
+      <button class="pr-Normale" data-p="Normale">📢 Normale</button>
+      <button class="pr-Importante" data-p="Importante">⚠️ Importante</button>
+      <button class="pr-Urgente" data-p="Urgente">🚨 Urgente</button>
+    </div>
+    <label>Resta visibile per</label>
+    <select class="in" id="afGiorni">
+      <option value="1">1 giorno</option><option value="3">3 giorni</option><option value="7" selected>7 giorni</option>
+      <option value="30">30 giorni</option><option value="0">Finché non lo tolgo</option>
+    </select>
+    <div id="afTgBox">
+      <label>📲 Avvisa anche su Telegram</label>
+      <div class="seg tg" id="afTg">
+        <button data-c="" class="on">No</button>
+        <button data-c="regionale">Regionale</button>
+        <button data-c="comando">Comando CA</button>
+        <button data-c="entrambi">Entrambi</button>
+      </div>
+      <div class="hint" id="afTgHint"></div>
+    </div>
+    <div class="err" id="afErr"></div>
+    <button class="btn" id="afSave" onclick="saveAvviso()">Pubblica</button>
+    <button class="btn sec" onclick="closeModal('avvM')">Annulla</button>
+  </div>
+</div>
+
+<!-- POPUP AVVISO URGENTE -->
+<div class="modal" id="urgM">
+  <div class="sheet popup-urg">
+    <div style="font-size:13px;font-weight:800;color:#e8384f;letter-spacing:1px">🚨 AVVISO URGENTE</div>
+    <h2 id="urgT" style="margin-top:8px"></h2>
+    <p id="urgP" style="white-space:pre-wrap"></p>
+    <p id="urgA" style="color:var(--muted);font-size:13px"></p>
+    <button class="btn" onclick="closeModal('urgM')">Ho letto</button>
+    <button class="btn sec" onclick="closeModal('urgM');showView('avvisi')">Vedi tutti gli avvisi</button>
+  </div>
+</div>
+
 <!-- CONFERMA -->
 <div class="modal" id="askM">
   <div class="sheet">
@@ -324,7 +547,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.1",
+  VERSIONE: "2.4",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
@@ -385,13 +608,28 @@ function demoDb(){
       {id:"ATTIVAZIONI",nome:"Attivazioni",descrizione:"Attivazione squadre e disponibilità",link:"https://esempio.it",icona:"app-attivazioni.png",colore:"#c8102e"},
       {id:"LOGISTICA",nome:"Logistica",descrizione:"Uscite e rientri attrezzature",link:"https://esempio.it",icona:"app-logistica.png",colore:"#e07a10"},
       {id:"ACCESSI",nome:"Accessi Area Rossa",descrizione:"Ingressi e uscite dal cantiere",link:"https://esempio.it",icona:"app-accessi.png",colore:"#f2a900"},
-      {id:"USARTAC",nome:"USAR-TAC",descrizione:"Edificio 3D e settori di ricerca",link:"https://esempio.it",icona:"app-usartac.png",colore:"#1f6fb2"}]
+      {id:"USARTAC",nome:"USAR-TAC",descrizione:"Edificio 3D e settori di ricerca",link:"https://esempio.it",icona:"app-usartac.png",colore:"#1f6fb2"}],
+    avvisi:(()=>{ const t=h=>{ const d=new Date(Date.now()-h*36e5); return d.toISOString().slice(0,11)+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); }; return [
+      {id:"A3",data:t(1),titolo:"Esercitazione sabato 29 novembre",testo:"Ritrovo in sede alle 8:00 con DPI completi.\nPortare torcia frontale e acqua.",priorita:"Importante",scadenza:"",autore:"Rossi Mario"},
+      {id:"A2",data:t(26),titolo:"Aggiornata l'app Logistica",testo:"Nuova funzione di scansione QR per i rientri. Guida nella sezione Guide.",priorita:"Normale",scadenza:"",autore:"Rossi Mario"},
+      {id:"A1",data:t(80),titolo:"Riunione referenti",testo:"Martedì ore 18 in sede.",priorita:"Normale",scadenza:"",autore:"Rossi Mario"}]; })(),
+    meteo:{lat:39.2238,lon:9.1217,nome:"Cagliari"},
+    guide:(()=>{ const d=n=>new Date(Date.now()-n*864e5).toISOString().slice(0,10); return [
+      {id:"G1",titolo:"Guida uso USAR Suite",app:"SUITE",tipo:"Guida uso",descrizione:"Primo accesso, PIN, installazione sul telefono",link:"https://esempio.it",aggiornata:d(0)},
+      {id:"G2",titolo:"Locandina QR USAR Suite",app:"SUITE",tipo:"Locandina",descrizione:"Da appendere in sede",link:"https://esempio.it",aggiornata:d(0)},
+      {id:"G3",titolo:"Guida uso Attivazioni",app:"ATTIVAZIONI",tipo:"Guida uso",descrizione:"Come rispondere a un'attivazione e segnare la disponibilità",link:"https://esempio.it",aggiornata:d(6)},
+      {id:"G4",titolo:"Scheda test Attivazioni",app:"ATTIVAZIONI",tipo:"Guida test",descrizione:"Da compilare durante la prova",link:"https://esempio.it",aggiornata:d(6)},
+      {id:"G5",titolo:"Locandina QR Attivazioni",app:"ATTIVAZIONI",tipo:"Locandina",descrizione:"",link:"https://esempio.it",aggiornata:d(20)},
+      {id:"G6",titolo:"Guida uso Logistica",app:"LOGISTICA",tipo:"Guida uso",descrizione:"Uscite e rientri delle attrezzature, scansione QR",link:"https://esempio.it",aggiornata:d(30)},
+      {id:"G7",titolo:"Procedura carico materiale in partenza",app:"LOGISTICA",tipo:"Procedura",descrizione:"Check-list per il carico dei mezzi",link:"https://esempio.it",aggiornata:d(45)},
+      {id:"G8",titolo:"Guida uso Accessi Area Rossa",app:"ACCESSI",tipo:"Guida uso",descrizione:"Tessere QR, ingresso e uscita dal cantiere",link:"https://esempio.it",aggiornata:d(3)},
+      {id:"G9",titolo:"Guida uso USAR-TAC",app:"USARTAC",tipo:"Guida uso",descrizione:"Ricerca edificio, settori e report",link:"https://esempio.it",aggiornata:d(10)}]; })()
   };
 }
 async function demoApi(q){
   await new Promise(r=>setTimeout(r,250));
   const db = demoDb(), save=()=>store.set("usarSuite.demo",db);
-  const resp = u => ({ok:true, token:"demo."+u.id, utente:{id:u.id,nome:u.nome}, nome:u.nome, qualifica:u.qualifica, admin:u.admin, apps:db.apps});
+  const resp = u => ({ok:true, token:"demo."+u.id, utente:{id:u.id,nome:u.nome}, nome:u.nome, qualifica:u.qualifica, admin:u.admin, apps:db.apps, guide:db.guide, avvisi:db.avvisi, meteo:db.meteo, telegram:{regionale:true,comando:true}});
   const daTok = t => db.utenti.find(u=>"demo."+u.id===t && u.pin);
   const cod = () => String(q.codice||"").trim().toUpperCase()===db.codice;
   switch(q.azione){
@@ -409,7 +647,14 @@ async function demoApi(q){
   if(q.azione==="salva"){ const a=q.app; if(a.id) db.apps=db.apps.map(x=>x.id===a.id?Object.assign({},x,a):x); else {a.id="APP"+Date.now(); db.apps.push(a);} }
   if(q.azione==="elimina") db.apps=db.apps.filter(x=>x.id!==q.id);
   if(q.azione==="ordina") db.apps=q.ordine.map(id=>db.apps.find(x=>x.id===id)).filter(Boolean);
-  save(); return {ok:true, apps:db.apps};
+  if(q.azione==="salvaGuida"){ const g=q.guida; g.aggiornata=new Date().toISOString().slice(0,10);
+    if(g.id) db.guide=db.guide.map(x=>x.id===g.id?Object.assign({},x,g):x); else { g.id="G"+Date.now(); db.guide.push(g); } }
+  if(q.azione==="eliminaGuida") db.guide=db.guide.filter(x=>x.id!==q.id);
+  if(q.azione==="salvaAvviso"){ const a=q.avviso; const d=new Date();
+    if(a.id) db.avvisi=db.avvisi.map(x=>x.id===a.id?Object.assign({},x,{titolo:a.titolo,testo:a.testo,priorita:a.priorita}):x);
+    else db.avvisi.unshift({id:"A"+Date.now(),data:d.toISOString().slice(0,11)+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"),titolo:a.titolo,testo:a.testo,priorita:a.priorita,scadenza:"",autore:u.nome}); }
+  if(q.azione==="eliminaAvviso") db.avvisi=db.avvisi.filter(x=>x.id!==q.id);
+  save(); return {ok:true, apps:db.apps, guide:db.guide, avvisi:db.avvisi, esito:q.canale?"telegram_ok":""};
 }
 
 /* ======================= UTILITÀ ======================= */
@@ -471,7 +716,7 @@ function closePin(){ closeModal("pinM"); ppCb=null; }
 
 /* ======================= ACCESSO ======================= */
 function showStep(id){
-  $("home").hidden=true; $("auth").hidden=false;
+  VISTE.forEach(x=>$(x).hidden=true); $("auth").hidden=false;
   ["stCode","stName","stMe"].forEach(s=>$(s).hidden = s!==id);
   ["errCode","errName","errMe"].forEach(s=>$(s).textContent="");
 }
@@ -552,11 +797,16 @@ function startCambioPin(){
 }
 
 /* ======================= HOME ======================= */
-function setStatus(t){ $("status").textContent=[DEMO?"Anteprima dimostrativa":"", t||""].filter(Boolean).join(" · "); }
+let stTimer=null;
+function setStatus(t){
+  $("status").textContent=[DEMO?"Anteprima dimostrativa":"", t||""].filter(Boolean).join(" · ");
+  clearTimeout(stTimer); if(t && /✓|Aggiornato/.test(t)) stTimer=setTimeout(()=>setStatus(""),5000);
+}
 function clock(){
   const d=new Date(), h=d.getHours();
   $("hiTxt").textContent = h<13?"Buongiorno,":h<18?"Buon pomeriggio,":"Buonasera,";
-  const s=d.toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"})+" · "+d.toLocaleTimeString("it-IT",{hour:"2-digit",minute:"2-digit"});
+  const corto = innerWidth<430;
+  const s=d.toLocaleDateString("it-IT",corto?{weekday:"short",day:"numeric",month:"short"}:{weekday:"long",day:"numeric",month:"long"})+" · "+d.toLocaleTimeString("it-IT",{hour:"2-digit",minute:"2-digit"});
   $("uDate").textContent=s.charAt(0).toUpperCase()+s.slice(1);
 }
 setInterval(()=>{ if(!$("home").hidden) clock(); }, 20000);
@@ -568,7 +818,9 @@ function showHome(statusTxt){
   clock();
   apps = d.apps||[];
   $("btnAdmin").hidden = !d.admin;
-  render(); setStatus(statusTxt);
+  VISTE.forEach(x=>$(x).hidden = x!=="home");
+  render(); aggiornaStrip(); renderAvvBanner(); caricaMeteo(); setStatus(statusTxt);
+  popupUrgente();
 }
 function render(){
   $("adminbar").hidden=!adminMode; $("btnAdmin").classList.toggle("on",adminMode);
@@ -589,7 +841,8 @@ function render(){
   html+='<button class="add" onclick="openForm(-1)"><span>+</span>Aggiungi app</button>';
   $("grid").innerHTML=html;
 }
-function toggleAdmin(){ if(!sess||!sess.dati.admin) return; adminMode=!adminMode; render(); }
+function toggleAdmin(){ if(!sess||!sess.dati.admin) return; adminMode=!adminMode; render();
+  if(!$("guide").hidden) renderGuide(); if(!$("avvisi").hidden) renderAvvisi(); renderAvvBanner(); }
 function aggiornaApps(list, msg){ apps=list; sess.dati.apps=list; store.set(K_SESS,sess); render(); if(msg) setStatus(msg); }
 function sessioneScaduta(){ logout(); showAuth("Accesso scaduto: inserisci il PIN"); }
 
@@ -626,7 +879,7 @@ async function saveForm(){
   busy($("fSave"),true); $("fErr").textContent="";
   try{
     const r=await api("salva",{token:sess.token, app});
-    if(r.ok){ aggiornaApps(r.apps,"Salvato ✓"); closeModal("formM"); }
+    if(r.ok){ aggiornaTutto(r); setStatus("Salvato ✓"); closeModal("formM"); }
     else if(r.codice==="SESSIONE"){ closeModal("formM"); sessioneScaduta(); }
     else $("fErr").textContent=r.errore||"Errore nel salvataggio";
   }catch(e){ $("fErr").textContent="Nessuna connessione. Riprova."; }
@@ -650,6 +903,317 @@ async function move(i,dir){
   try{ const r=await api("ordina",{token:sess.token, ordine:nuovo.map(a=>a.id)});
     if(r.ok) aggiornaApps(r.apps); else if(r.codice==="SESSIONE") sessioneScaduta(); else setStatus(r.errore); }
   catch(e){ setStatus("Nessuna connessione"); }
+}
+
+/* ======================= GUIDE ======================= */
+const TIPI = [
+  {k:"Guida uso", ico:"📘", corto:"Uso"},
+  {k:"Guida test", ico:"🧪", corto:"Test"},
+  {k:"Locandina", ico:"🖼️", corto:"Locandina"},
+  {k:"Procedura", ico:"📋", corto:"Procedura"},
+  {k:"Altro", ico:"📄", corto:"Altro"}
+];
+const GENERALI = {SUITE:{nome:"USAR Suite", icona:"logo-usar.png", colore:"#c8102e"}, GENERALE:{nome:"Generale", icona:"logo-vvf.png", colore:"#4a5868"}};
+let gApp="", gTipo="";
+function guide(){ return (sess && sess.dati.guide) || []; }
+function infoApp(id){
+  const a = apps.find(x=>x.id===id);
+  if(a) return {nome:a.nome, icona:a.icona, colore:safeColor(a.colore)};
+  return GENERALI[id] || {nome:id||"Generale", icona:"logo-usar.png", colore:"#4a5868"};
+}
+function norm(t){ return String(t||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function isNuova(g){ if(!g.aggiornata) return false; return (Date.now()-new Date(g.aggiornata+"T12:00:00").getTime()) < 14*864e5; }
+function dataIt(d){ if(!d) return ""; const [y,m,g]=d.split("-"); return g+"/"+m+"/"+y; }
+function tipoInfo(k){ return TIPI.find(t=>t.k===k) || TIPI[4]; }
+function imgOrIcon(ic, size){ return isImg(ic) ? `<img src="${esc(ic)}" alt="" style="width:${size}px;height:${size}px">` : ""; }
+
+const VISTE=["home","guide","avvisi","meteo"];
+function showView(v){
+  VISTE.forEach(x=>$(x).hidden = x!==v);
+  if(v==="guide") renderGuide();
+  if(v==="avvisi"){ renderAvvisi(); segnaLetti(); }
+  if(v==="meteo") renderMeteo(true);
+}
+function showGuide(){ showView("guide"); }
+function backHome(){ showView("home"); renderAvvBanner(); }
+function aggiornaStrip(){
+  const g=guide(), nuove=g.filter(isNuova).length;
+  $("nGuide").innerHTML = g.length ? g.length+`<span class="lbl">${g.length===1?" documento":" documenti"}</span>`+(nuove?`<span class="gs-new">${nuove} NUOV${nuove===1?"A":"E"}</span>`:"") : "";
+}
+function evidenzia(txt, q){
+  const t=esc(txt); if(!q) return t;
+  const n=norm(txt); const i=n.indexOf(q); if(i<0) return t;
+  return esc(txt.slice(0,i))+"<mark>"+esc(txt.slice(i,i+q.length))+"</mark>"+esc(txt.slice(i+q.length));
+}
+function renderGuide(){
+  const all=guide(), q=norm($("gq").value.trim());
+  $("gqx").hidden=!q;
+  // filtro testo
+  const perTesto = all.filter(g=>!q || norm(g.titolo+" "+g.descrizione+" "+g.tipo+" "+infoApp(g.app).nome).includes(q));
+  // chip app (con conteggio)
+  const ids=[...new Set(all.map(g=>g.app))];
+  const ordineApp = ["SUITE"].concat(apps.map(a=>a.id)).concat(["GENERALE"]);
+  ids.sort((a,b)=>{ const ia=ordineApp.indexOf(a), ib=ordineApp.indexOf(b); return (ia<0?99:ia)-(ib<0?99:ib); });
+  if(gApp && !ids.includes(gApp)) gApp="";
+  $("gApps").innerHTML = `<button class="chip noimg ${gApp?"":"on"}" data-a="">Tutte <span class="n">${perTesto.length}</span></button>` +
+    ids.map(id=>{ const a=infoApp(id), n=perTesto.filter(g=>g.app===id).length;
+      if(q && !n && gApp!==id) return "";
+      return `<button class="chip ${gApp===id?"on":""} ${isImg(a.icona)?"":"noimg"}" style="--c:${a.colore}" data-a="${esc(id)}">${imgOrIcon(a.icona,24)}${esc(a.nome)} <span class="n">${n}</span></button>`; }).join("");
+  // chip tipo
+  const perApp = perTesto.filter(g=>!gApp || g.app===gApp);
+  const tipiPresenti = TIPI.filter(t=>all.some(g=>g.tipo===t.k));
+  $("gTipi").innerHTML = `<button class="chip noimg ${gTipo?"":"on"}" data-t="">Tutti</button>` +
+    tipiPresenti.map(t=>`<button class="chip noimg ${gTipo===t.k?"on":""}" data-t="${esc(t.k)}">${t.ico} ${t.corto}</button>`).join("");
+  let list = perApp.filter(g=>!gTipo || g.tipo===gTipo);
+  // ordinamento
+  const sort=$("gSort").value;
+  const tIdx = k=>TIPI.findIndex(t=>t.k===k);
+  if(sort==="az") list.sort((a,b)=>a.titolo.localeCompare(b.titolo,"it"));
+  else if(sort==="recenti") list.sort((a,b)=>(b.aggiornata||"").localeCompare(a.aggiornata||""));
+  else { const oi=id=>{ const i=ordineApp.indexOf(id); return i<0?999:i; };
+    list.sort((a,b)=>oi(a.app)-oi(b.app) || tIdx(a.tipo)-tIdx(b.tipo) || a.titolo.localeCompare(b.titolo,"it")); }
+  const card = g=>{
+    const a=infoApp(g.app), t=tipoInfo(g.tipo), i=all.indexOf(g);
+    return `<a class="gcard" href="${esc(safeLink(g.link))}" target="_blank" rel="noopener" style="--c:${a.colore}" ${adminMode?'onclick="event.preventDefault()"':''}>
+      <div class="gi">${t.ico}</div>
+      <div style="min-width:0">
+        <div class="gt">${evidenzia(g.titolo,q)}</div>
+        ${g.descrizione?`<div class="gd">${evidenzia(g.descrizione,q)}</div>`:""}
+        <div class="gm">${isNuova(g)?'<span class="badge new">NUOVA</span>':""}<span class="badge">${esc(g.tipo)}</span>${sort!=="app"?`<span>${esc(a.nome)}</span> ·`:""}${g.aggiornata?`<span>agg. ${dataIt(g.aggiornata)}</span>`:""}</div>
+      </div>
+      <span class="go">›</span>
+      <div class="gtools"><button onclick="openGuida(${i})" aria-label="Modifica">✎</button><button class="del" onclick="askDeleteGuida(${i})" aria-label="Elimina">🗑</button></div>
+    </a>`;
+  };
+  let html="";
+  if(!list.length){
+    html = all.length ? `<div class="g-empty"><b>🔍</b>Nessuna guida trovata${q?` per “${esc($("gq").value.trim())}”`:""}.<br>Prova un'altra parola o togli i filtri.</div>`
+                      : `<div class="g-empty"><b>📚</b>Nessuna guida caricata per ora.</div>`;
+  } else if(sort==="app"){
+    let cur=null;
+    list.forEach(g=>{ if(g.app!==cur){ cur=g.app; const a=infoApp(cur);
+      html+=`<div class="g-group">${imgOrIcon(a.icona,26)}<span>${esc(a.nome.toUpperCase())}</span><span class="ln"></span></div>`; }
+      html+=card(g); });
+  } else html=list.map(card).join("");
+  html += '<button class="g-add" onclick="openGuida(-1)">+ Aggiungi guida</button>';
+  $("gList").innerHTML=html;
+}
+$("gApps").onclick=e=>{ const b=e.target.closest("[data-a]"); if(b){ gApp=b.dataset.a; renderGuide(); } };
+$("gTipi").onclick=e=>{ const b=e.target.closest("[data-t]"); if(b){ gTipo=b.dataset.t; renderGuide(); } };
+$("gq").addEventListener("input",renderGuide);
+$("gSort").addEventListener("change",renderGuide);
+
+let gEdit=-1;
+function openGuida(i){
+  gEdit=i; const g = i>=0 ? guide()[i] : {titolo:"",app:gApp||"SUITE",tipo:"Guida uso",descrizione:"",link:""};
+  $("gfTitle").textContent = i>=0?"Modifica guida":"Nuova guida";
+  $("gfTitolo").value=g.titolo; $("gfDesc").value=g.descrizione; $("gfLink").value=g.link;
+  const opts=[["SUITE","USAR Suite"]].concat(apps.map(a=>[a.id,a.nome])).concat([["GENERALE","Generale"]]);
+  if(g.app && !opts.some(o=>o[0]===g.app)) opts.push([g.app,g.app]);
+  $("gfApp").innerHTML=opts.map(o=>`<option value="${esc(o[0])}" ${o[0]===g.app?"selected":""}>${esc(o[1])}</option>`).join("");
+  $("gfTipo").innerHTML=TIPI.map(t=>`<option ${t.k===g.tipo?"selected":""}>${t.k}</option>`).join("");
+  $("gfErr").textContent=""; openModal("guideM");
+}
+async function saveGuida(){
+  const titolo=$("gfTitolo").value.trim(); let link=$("gfLink").value.trim();
+  if(!titolo){ $("gfErr").textContent="Scrivi il titolo"; return; }
+  if(link && !/^https?:\/\//i.test(link)) link="https://"+link;
+  if(!/^https:\/\/[^\s.]+\.[^\s]+$/i.test(link)){ $("gfErr").textContent="Incolla il link del PDF (https://…)"; return; }
+  const guida={titolo, app:$("gfApp").value, tipo:$("gfTipo").value, descrizione:$("gfDesc").value.trim(), link};
+  if(gEdit>=0) guida.id=guide()[gEdit].id;
+  busy($("gfSave"),true); $("gfErr").textContent="";
+  try{
+    const r=await api("salvaGuida",{token:sess.token, guida});
+    if(r.ok){ aggiornaTutto(r); closeModal("guideM"); }
+    else if(r.codice==="SESSIONE"){ closeModal("guideM"); sessioneScaduta(); }
+    else $("gfErr").textContent=r.errore||"Errore nel salvataggio";
+  }catch(e){ $("gfErr").textContent="Nessuna connessione. Riprova."; }
+  busy($("gfSave"),false);
+}
+function askDeleteGuida(i){
+  const g=guide()[i];
+  $("askT").textContent="Eliminare la guida?"; $("askP").textContent="“"+g.titolo+"” sparisce dall'elenco. Il PDF su Drive non viene toccato.";
+  $("askOk").onclick=async()=>{ closeModal("askM");
+    try{ const r=await api("eliminaGuida",{token:sess.token, id:g.id}); if(r.ok) aggiornaTutto(r); else if(r.codice==="SESSIONE") sessioneScaduta(); }catch(e){} };
+  openModal("askM");
+}
+function aggiornaTutto(r){
+  apps=r.apps; sess.dati.apps=r.apps; if(r.guide) sess.dati.guide=r.guide; if(r.avvisi) sess.dati.avvisi=r.avvisi;
+  store.set(K_SESS,sess); render(); aggiornaStrip(); renderAvvBanner();
+  if(!$("guide").hidden) renderGuide(); if(!$("avvisi").hidden) renderAvvisi();
+}
+
+/* ======================= AVVISI ======================= */
+const K_LETTI="usarSuite.avvisiLetti";
+const PR_ICO={Normale:"📢",Importante:"⚠️",Urgente:"🚨"};
+function avvisi(){ return (sess && sess.dati.avvisi) || []; }
+function letti(){ return store.get(K_LETTI) || []; }
+function nonLetti(){ const l=letti(); return avvisi().filter(a=>!l.includes(a.id)); }
+function segnaLetti(){ store.set(K_LETTI, avvisi().map(a=>a.id)); }
+function quando(iso){
+  if(!iso) return "";
+  const d=new Date(iso), oggi=new Date(); const ieri=new Date(Date.now()-864e5);
+  const ora=d.toLocaleTimeString("it-IT",{hour:"2-digit",minute:"2-digit"});
+  if(d.toDateString()===oggi.toDateString()) return "oggi "+ora;
+  if(d.toDateString()===ieri.toDateString()) return "ieri "+ora;
+  return d.toLocaleDateString("it-IT",{day:"numeric",month:"short"})+" "+ora;
+}
+function renderAvvBanner(){
+  const list=avvisi(), b=$("avvBanner");
+  if(!list.length && !adminMode){ b.hidden=true; return; }
+  b.hidden=false;
+  if(!list.length){ b.className="avv-banner pr-Normale"; b.innerHTML='<span class="ai">📢</span><div><div class="at">Nessun avviso</div><div class="as">Tocca per pubblicarne uno</div></div><span class="ar">›</span>'; return; }
+  const nl=nonLetti();
+  const top = list.find(a=>a.priorita==="Urgente" && nl.includes(a)) || list.find(a=>nl.includes(a)) || list[0];
+  b.className="avv-banner pr-"+top.priorita;
+  const altri=list.length-1;
+  b.innerHTML=`<span class="ai">${PR_ICO[top.priorita]}</span><div style="min-width:0"><div class="at">${esc(top.titolo)}</div>
+    <div class="as">${quando(top.data)}${altri>0?` · altri ${altri} avvis${altri===1?"o":"i"}`:""}</div></div>
+    <span class="ar">${nl.length?`<span class="dotnew">${nl.length} NUOV${nl.length===1?"O":"I"}</span>`:""}›</span>`;
+}
+function renderAvvisi(){
+  const list=avvisi(), l=letti();
+  let html = list.map((a,i)=>`
+    <div class="acard pr-${a.priorita} ${l.includes(a.id)?"":"unread"}">
+      <div class="ah"><span class="apr">${PR_ICO[a.priorita]} ${a.priorita.toUpperCase()}</span><span class="adt">${quando(a.data)}</span>${l.includes(a.id)?"":'<span class="dotnew">NUOVO</span>'}</div>
+      <div class="att">${esc(a.titolo)}</div>
+      ${a.testo?`<div class="atx">${esc(a.testo)}</div>`:""}
+      <div class="aft"><span>${esc(a.autore)}</span>${a.scadenza?`<span>· visibile fino al ${dataIt(a.scadenza)}</span>`:""}
+        <div class="gtools"><button onclick="openAvviso(${i})" aria-label="Modifica">✎</button><button class="del" onclick="askDeleteAvviso(${i})" aria-label="Elimina">🗑</button></div></div>
+    </div>`).join("");
+  if(!list.length) html='<div class="g-empty"><b>📭</b>Nessun avviso in questo momento.</div>';
+  html+='<button class="g-add" onclick="openAvviso(-1)">+ Nuovo avviso</button>';
+  $("aList").innerHTML=html;
+}
+function popupUrgente(){
+  const u=nonLetti().find(a=>a.priorita==="Urgente");
+  if(!u || $("urgM").classList.contains("open")) return;
+  const visti=store.get("usarSuite.popupVisti")||[];
+  if(visti.includes(u.id)) return;
+  store.set("usarSuite.popupVisti", visti.concat(u.id).slice(-50));
+  $("urgT").textContent=u.titolo; $("urgP").textContent=u.testo; $("urgA").textContent=u.autore+" · "+quando(u.data);
+  openModal("urgM");
+}
+let aEdit=-1, aPr="Normale";
+function setPr(p){ aPr=p; [...$("afPr").children].forEach(b=>b.classList.toggle("on",b.dataset.p===p)); }
+$("afPr").onclick=e=>{ const b=e.target.closest("[data-p]"); if(b) setPr(b.dataset.p); };
+let aCanale="";
+function setCanale(c){ aCanale=c; [...$("afTg").children].forEach(b=>b.classList.toggle("on",b.dataset.c===c));
+  $("afTgHint").textContent = c==="regionale"?"Il bot scrive nel gruppo regionale (SAR_01).":c==="comando"?"Il bot scrive nel gruppo del Comando CA.":c==="entrambi"?"Il bot scrive in tutti e due i gruppi.":"Nessun messaggio su Telegram, solo nella suite."; }
+$("afTg").onclick=e=>{ const b=e.target.closest("[data-c]"); if(b && !b.disabled) setCanale(b.dataset.c); };
+function openAvviso(i){
+  aEdit=i; const a=i>=0?avvisi()[i]:{titolo:"",testo:"",priorita:"Normale"};
+  $("afTitle").textContent=i>=0?"Modifica avviso":"Nuovo avviso";
+  $("afSave").textContent=i>=0?"Salva":"Pubblica";
+  $("afTitolo").value=a.titolo; $("afTesto").value=a.testo;
+  $("afGiorni").value = i>=0 ? "" : "7";
+  if(i>=0 && !$("afGiorni").querySelector('option[value=""]')) $("afGiorni").insertAdjacentHTML("afterbegin",'<option value="">Non cambiare</option>');
+  if(i<0){ const o=$("afGiorni").querySelector('option[value=""]'); if(o) o.remove(); $("afGiorni").value="7"; }
+  setPr(a.priorita);
+  const tg = DEMO ? {regionale:true,comando:true} : (sess.dati.telegram||{});
+  $("afTgBox").hidden = !(tg.regionale || tg.comando);
+  $("afTg").querySelector('[data-c="regionale"]').disabled=!tg.regionale;
+  $("afTg").querySelector('[data-c="comando"]').disabled=!tg.comando;
+  $("afTg").querySelector('[data-c="entrambi"]').disabled=!(tg.regionale && tg.comando);
+  setCanale("");
+  $("afErr").textContent=""; openModal("avvM");
+}
+async function saveAvviso(){
+  const titolo=$("afTitolo").value.trim();
+  if(!titolo){ $("afErr").textContent="Scrivi il titolo"; return; }
+  const avviso={titolo, testo:$("afTesto").value.trim(), priorita:aPr, giorni:$("afGiorni").value};
+  if(aEdit>=0) avviso.id=avvisi()[aEdit].id;
+  busy($("afSave"),true); $("afErr").textContent="";
+  try{
+    const r=await api("salvaAvviso",{token:sess.token, avviso, canale:aCanale});
+    if(r.ok){
+      // l'autore non deve vederlo come "nuovo"
+      const nuovi=(r.avvisi||[]).map(a=>a.id).filter(id=>!avvisi().some(a=>a.id===id));
+      store.set(K_LETTI, letti().concat(nuovi)); store.set("usarSuite.popupVisti",(store.get("usarSuite.popupVisti")||[]).concat(nuovi));
+      aggiornaTutto(r); closeModal("avvM");
+      if(String(r.esito||"").indexOf("telegram_errore")===0) setStatus("Avviso pubblicato, ma Telegram non è partito: controlla IMPOSTAZIONI");
+      else setStatus(r.esito==="telegram_ok"?"Avviso pubblicato e inviato su Telegram ✓":"Avviso pubblicato ✓");
+    }
+    else if(r.codice==="SESSIONE"){ closeModal("avvM"); sessioneScaduta(); }
+    else $("afErr").textContent=r.errore||"Errore";
+  }catch(e){ $("afErr").textContent="Nessuna connessione. Riprova."; }
+  busy($("afSave"),false);
+}
+function askDeleteAvviso(i){
+  const a=avvisi()[i];
+  $("askT").textContent="Togliere l'avviso?"; $("askP").textContent="“"+a.titolo+"” sparisce per tutti. Resta registrato nel foglio AVVISI.";
+  $("askOk").onclick=async()=>{ closeModal("askM");
+    try{ const r=await api("eliminaAvviso",{token:sess.token, id:a.id}); if(r.ok) aggiornaTutto(r); else if(r.codice==="SESSIONE") sessioneScaduta(); }catch(e){} };
+  openModal("askM");
+}
+
+/* ======================= METEO ======================= */
+const K_METEO="usarSuite.meteo", K_POS="usarSuite.posizione";
+const WMO={0:["☀️","Sereno"],1:["🌤️","Poco nuvoloso"],2:["⛅","Parz. nuvoloso"],3:["☁️","Coperto"],45:["🌫️","Nebbia"],48:["🌫️","Nebbia"],
+  51:["🌦️","Pioviggine"],53:["🌦️","Pioviggine"],55:["🌧️","Pioviggine forte"],61:["🌧️","Pioggia debole"],63:["🌧️","Pioggia"],65:["🌧️","Pioggia forte"],
+  71:["🌨️","Neve"],73:["🌨️","Neve"],75:["❄️","Neve forte"],80:["🌦️","Rovesci"],81:["🌧️","Rovesci"],82:["⛈️","Rovesci forti"],95:["⛈️","Temporale"],96:["⛈️","Temporale con grandine"],99:["⛈️","Temporale con grandine"]};
+const wmo=c=>WMO[c]||["🌡️","—"];
+const DIR=["N","NE","E","SE","S","SO","O","NO"];
+const dirTxt=g=>DIR[Math.round(((g%360)+360)%360/45)%8];
+function luogo(){ const p=store.get(K_POS); if(p) return p; const m=(sess&&sess.dati.meteo)||{lat:39.2238,lon:9.1217,nome:"Cagliari"}; return {lat:m.lat,lon:m.lon,nome:m.nome,sede:true}; }
+async function caricaMeteo(forza){
+  const L=luogo(), c=store.get(K_METEO);
+  if(!forza && c && c.lat===L.lat && c.lon===L.lon && Date.now()-c.t<15*60e3){ meteoDati=c.d; renderMeteoChip(); return; }
+  try{
+    let d;
+    if(DEMO){ d=demoMeteo(); }
+    else{
+      const u=`https://api.open-meteo.com/v1/forecast?latitude=${L.lat}&longitude=${L.lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation&hourly=temperature_2m,weather_code,wind_speed_10m,wind_gusts_10m,precipitation_probability&forecast_hours=12&wind_speed_unit=kmh&timezone=Europe%2FRome`;
+      d=await (await fetch(u)).json();
+    }
+    meteoDati=d; store.set(K_METEO,{t:Date.now(),lat:L.lat,lon:L.lon,d});
+  }catch(e){ if(c) meteoDati=c.d; }
+  renderMeteoChip(); if(!$("meteo").hidden) renderMeteo(false);
+}
+let meteoDati=null;
+function renderMeteoChip(){
+  const c=meteoDati&&meteoDati.current; if(!c){ $("meteoChip").textContent=""; return; }
+  const forte = c.wind_gusts_10m>=50;
+  $("meteoChip").innerHTML=`${wmo(c.weather_code)[0]} ${Math.round(c.temperature_2m)}° · 💨 ${Math.round(c.wind_speed_10m)} km/h ${dirTxt(c.wind_direction_10m)}${forte?' <span class="mt-warn">⚠️</span>':""}`;
+}
+function renderMeteo(ricarica){
+  const L=luogo();
+  $("mtLuogo").innerHTML=esc(L.nome)+(L.sede?"<br>(sede)":"");
+  $("mtPos").textContent = L.sede ? "📍 La mia posizione" : "🏠 Torna alla sede";
+  $("mtWindy").href=`https://www.windy.com/?${L.lat},${L.lon},10`;
+  const d=meteoDati;
+  if(!d||!d.current){ $("mtNow").innerHTML='<div class="ds">Meteo non disponibile senza connessione.</div>'; $("mtGrid").innerHTML=""; $("mtHours").innerHTML=""; }
+  else{
+    const c=d.current, w=wmo(c.weather_code);
+    $("mtNow").innerHTML=`<div class="big">${w[0]}</div><div><div class="tp">${Math.round(c.temperature_2m)}°C</div><div class="ds">${w[1]} · umidità ${c.relative_humidity_2m}%</div></div>`;
+    const forte=c.wind_gusts_10m>=50;
+    $("mtGrid").innerHTML=`
+      <div class="mt-box"><div class="k">VENTO</div><div class="v">${Math.round(c.wind_speed_10m)} <small>km/h</small></div></div>
+      <div class="mt-box" ${forte?'style="border-color:#f2a900"':""}><div class="k">RAFFICHE</div><div class="v ${forte?"mt-warn":""}">${Math.round(c.wind_gusts_10m)} <small>km/h</small></div></div>
+      <div class="mt-box"><div class="k">DIREZIONE</div><div class="v"><span class="arrow" style="transform:rotate(${c.wind_direction_10m+180}deg)">↑</span> ${dirTxt(c.wind_direction_10m)}</div></div>`;
+    const h=d.hourly||{}; const n=(h.time||[]).length;
+    $("mtHours").innerHTML=Array.from({length:n},(_,i)=>`<div class="mt-h">${h.time[i].slice(11,16)}<b>${wmo(h.weather_code[i])[0]}</b>${Math.round(h.temperature_2m[i])}°<br><span style="color:var(--muted)">💨${Math.round(h.wind_speed_10m[i])}</span>${h.precipitation_probability&&h.precipitation_probability[i]>=30?`<br><span style="color:#6cb6ff">💧${h.precipitation_probability[i]}%</span>`:""}</div>`).join("");
+  }
+  const src=`https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=km%2Fh&zoom=8&overlay=wind&product=ecmwf&level=surface&lat=${L.lat}&lon=${L.lon}&detailLat=${L.lat}&detailLon=${L.lon}&marker=true`;
+  if(DEMO){ $("mtMap").innerHTML='<div class="ph"><span style="font-size:36px">🗺️</span>Qui compare la mappa del vento di Windy<br><small>(visibile nella suite online)</small></div>'; }
+  else if(!$("mtMap").dataset.src || $("mtMap").dataset.src!==src){ $("mtMap").dataset.src=src; $("mtMap").innerHTML=`<iframe src="${src}" title="Mappa vento Windy" loading="lazy"></iframe>`; }
+  if(ricarica) caricaMeteo(false);
+}
+function meteoPosizione(){
+  if(store.get(K_POS)){ store.del(K_POS); caricaMeteo(true); renderMeteo(false); return; }
+  if(!navigator.geolocation){ setStatus("Posizione non disponibile"); return; }
+  $("mtPos").textContent="📍 Ricerca…";
+  navigator.geolocation.getCurrentPosition(p=>{
+    store.set(K_POS,{lat:+p.coords.latitude.toFixed(3),lon:+p.coords.longitude.toFixed(3),nome:"La tua posizione"});
+    caricaMeteo(true); renderMeteo(false);
+  },()=>{ $("mtPos").textContent="📍 La mia posizione"; alertPos(); },{enableHighAccuracy:false,timeout:10000});
+}
+function alertPos(){ $("mtLuogo").innerHTML='<span style="color:var(--red2)">Consenti la posizione nel browser</span>'; }
+function demoMeteo(){
+  const now=new Date(); const t=i=>{ const d=new Date(now.getTime()+i*36e5); return d.toISOString().slice(0,11)+String(d.getHours()).padStart(2,"0")+":00"; };
+  return {current:{temperature_2m:17.6,relative_humidity_2m:64,weather_code:2,wind_speed_10m:24,wind_direction_10m:315,wind_gusts_10m:41,precipitation:0},
+    hourly:{time:[...Array(12)].map((_,i)=>t(i)),temperature_2m:[18,18,19,19,18,17,16,15,15,14,14,13],weather_code:[2,2,1,1,2,3,3,61,61,3,2,2],
+      wind_speed_10m:[24,26,28,30,27,22,20,18,16,15,14,12],wind_gusts_10m:[41,44,52,55,47,38,33,30,28,25,24,22],precipitation_probability:[0,0,5,10,20,35,55,70,60,30,10,5]}};
 }
 
 /* ======================= AVVIO ======================= */
