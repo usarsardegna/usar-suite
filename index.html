@@ -101,7 +101,11 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
   .hdr-txt .l1{font-size:14px;white-space:nowrap} .hdr-txt .l2{font-size:10.5px;white-space:nowrap} .logo{width:38px;height:38px} .hdr{gap:8px}
   .hero-acts button{padding:6px 8px;font-size:12px}
 }
-body.admin .grid{grid-auto-rows:minmax(178px,auto)}
+body.admin .grid{grid-auto-rows:max-content;align-content:start}
+body.admin .tile{flex-shrink:0;height:auto}
+body.admin .tile{overflow:visible;min-height:0;justify-content:flex-start}
+body.admin .tile .d{display:none}
+body.admin .ico.img{width:64px;height:64px}
 .tile{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;
   background:linear-gradient(180deg,var(--panel) 0%,#18202a 100%);border:1px solid var(--line);border-radius:var(--radius);
   padding:clamp(10px,1.6vh,16px) 10px clamp(8px,1.4vh,14px);justify-content:center;text-decoration:none;color:var(--text);overflow:hidden;transition:transform .12s}
@@ -547,7 +551,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.4",
+  VERSIONE: "2.4.1",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
