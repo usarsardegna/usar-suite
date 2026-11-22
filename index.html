@@ -182,6 +182,7 @@ footer button{background:none;border:none;color:var(--amber);text-decoration:und
 .gcard mark{background:rgba(242,169,0,.35);color:inherit;border-radius:3px;padding:0 1px}
 .gcard .gtools{display:none;gap:6px;margin-left:auto;flex-shrink:0}
 body.admin .gcard .gtools{display:flex} body.admin .gcard .go{display:none}
+.gcard .drive-note{display:none} body.admin .gcard .drive-note{display:block}
 .gtools button{background:var(--panel2);border:1px solid var(--line);border-radius:9px;width:38px;height:38px}
 .gtools .del{color:var(--red2)}
 .g-add{display:none;width:100%;border:2px dashed var(--amber);background:transparent;color:var(--amber);border-radius:14px;padding:14px;font-weight:700;font-size:15px;margin-top:4px}
@@ -250,6 +251,29 @@ textarea.in{min-height:110px;resize:vertical;font-size:16px;line-height:1.4}
 .mt-acts{flex-shrink:0;display:flex;gap:8px;margin-top:10px}
 .mt-acts a,.mt-acts button{flex:1;text-align:center;text-decoration:none;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 6px;font-size:14px;font-weight:600;color:var(--text)}
 .mt-warn{color:var(--amber);font-weight:800}
+
+/* ===== PERSONALE ===== */
+.pers-strip{display:none;flex-shrink:0;align-items:center;gap:10px;width:100%;margin:0 0 12px;padding:11px 14px;border-radius:14px;
+  background:linear-gradient(90deg,rgba(31,111,178,.25),rgba(31,111,178,.06));border:1px solid rgba(80,150,220,.55);color:var(--text);font-size:15px;text-align:left}
+body.admin .pers-strip{display:flex}
+.pers-strip .n{margin-left:auto;color:#8ec2f0;font-weight:700;font-size:13px;white-space:nowrap}
+.prow{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px}
+.prow.off{opacity:.55}
+.prow .av{width:40px;height:40px;border-radius:50%;background:#2a3a4e;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
+.prow .pn{font-weight:700;font-size:15px}
+.prow .pq{font-size:12px;color:var(--muted)}
+.prow .pq .mai{color:#f2a900;font-weight:700}
+.tg3{margin-left:auto;display:flex;gap:5px;flex-shrink:0}
+.tg3 button{border:1px solid var(--line);background:var(--panel2);border-radius:9px;padding:6px 7px;font-size:11.5px;font-weight:700;color:var(--muted);min-width:40px}
+.tg3 button.on{color:#fff}
+.tg3 button.on.att{background:#2fb36d;border-color:#2fb36d}
+.tg3 button.on.lgs{background:#e07a10;border-color:#e07a10}
+.tg3 button.on.adm{background:#c8102e;border-color:#c8102e}
+.tg3 button.key{color:var(--amber)}
+.pleg{flex-shrink:0;font-size:12px;color:var(--muted);margin:0 2px 8px;display:flex;gap:10px;flex-wrap:wrap}
+.drive-note{font-size:11.5px;color:#8ec2f0;margin-left:auto;flex-shrink:0;text-align:right}
+.g-sync{display:none;width:100%;border:1px solid rgba(80,150,220,.55);background:rgba(31,111,178,.15);color:#8ec2f0;border-radius:14px;padding:12px;font-weight:700;font-size:14px;margin-top:8px}
+body.admin .g-sync{display:block}
 
 /* ===== FINESTRE ===== */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center;z-index:20}
@@ -368,6 +392,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
 
     <div class="adminbar" id="adminbar" hidden><div><b>Modalità gestione</b><br>Aggiungi, modifica, sposta le app</div><button onclick="toggleAdmin()">Fine</button></div>
     <button class="avv-banner" id="avvBanner" onclick="showView('avvisi')" hidden></button>
+    <button class="pers-strip" onclick="showView('personale')"><span style="font-size:20px">👥</span><b>Personale</b><span class="n" id="nPers">gestisci accessi e PIN</span>›</button>
     <button class="guide-strip" onclick="showGuide()"><span class="gs-ico">📚</span><b>Guide e manuali</b><span class="gs-n" id="nGuide"></span>›</button>
     <div class="section"><span>LE TUE APP</span><span id="nApps"></span></div>
     <div class="grid" id="grid"></div>
@@ -379,6 +404,19 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
   <section id="avvisi" class="view" hidden>
     <div class="g-top"><button class="back" onclick="backHome()">← App</button><h2>📢 Avvisi</h2></div>
     <div class="v-list" id="aList"></div>
+  </section>
+
+  <!-- ================= PERSONALE ================= -->
+  <section id="personale" class="view" hidden>
+    <div class="g-top"><button class="back" onclick="backHome()">← App</button><h2>👥 Personale</h2>
+      <button class="back" style="margin-left:auto" onclick="openPersona()">+ Aggiungi</button></div>
+    <div class="g-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="pq" type="text" placeholder="Cerca nome o qualifica…" autocomplete="off">
+    </div>
+    <div class="chips" id="pFil"></div>
+    <div class="pleg"><span><b style="color:#2fb36d">ATT</b> attivo</span><span><b style="color:#e07a10">LOG</b> logista</span><span><b style="color:#e8384f">ADM</b> admin</span><span>🔑 azzera PIN</span></div>
+    <div class="v-list" id="pList"></div>
   </section>
 
   <!-- ================= METEO ================= -->
@@ -532,6 +570,22 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
   </div>
 </div>
 
+<!-- MODULO PERSONA -->
+<div class="modal" id="persM">
+  <div class="sheet">
+    <h2>Nuova persona</h2>
+    <label>Cognome</label><input class="in" id="pfCog" maxlength="40" autocapitalize="characters">
+    <label>Nome</label><input class="in" id="pfNom" maxlength="40" autocapitalize="characters">
+    <label>Qualifica (facoltativa)</label><input class="in" id="pfQua" maxlength="40" placeholder="es. Vigile del Fuoco">
+    <label class="check"><input type="checkbox" id="pfLog"> 📦 Logista</label>
+    <label class="check"><input type="checkbox" id="pfAdm"> 🛠️ Admin della suite</label>
+    <div class="hint">Entra la prima volta con il codice squadra, sceglie il suo nome e crea il PIN.</div>
+    <div class="err" id="pfErr"></div>
+    <button class="btn" id="pfSave" onclick="savePersona()">Aggiungi</button>
+    <button class="btn sec" onclick="closeModal('persM')">Annulla</button>
+  </div>
+</div>
+
 <!-- POPUP AVVISO URGENTE -->
 <div class="modal" id="urgM">
   <div class="sheet popup-urg">
@@ -560,7 +614,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.5",
+  VERSIONE: "2.6",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
@@ -638,7 +692,7 @@ function demoDb(){
       {id:"G8",titolo:"Guida uso Accessi Area Rossa",app:"ACCESSI",tipo:"Guida uso",descrizione:"Tessere QR, ingresso e uscita dal cantiere",link:"https://esempio.it",aggiornata:d(3)},
       {id:"G9",titolo:"Guida uso USAR-TAC",app:"USARTAC",tipo:"Guida uso",descrizione:"Ricerca edificio, settori e report",link:"https://esempio.it",aggiornata:d(10)},
       {id:"G10",titolo:"Guida admin USAR Suite",app:"SUITE",tipo:"Guida uso",descrizione:"Gestione app, guide, avvisi e personale",link:"https://esempio.it",aggiornata:d(0),visibile:"Solo admin"},
-      {id:"G11",titolo:"Guida gestionale magazzino (logista)",app:"LOGISTICA",tipo:"Guida uso",descrizione:"Inventario, carichi e scarichi",link:"https://esempio.it",aggiornata:d(2),visibile:"Logisti"}]; })()
+      {id:"G11",titolo:"Guida gestionale magazzino (logista)",app:"LOGISTICA",tipo:"Guida uso",descrizione:"Inventario, carichi e scarichi",link:"https://esempio.it",aggiornata:d(2),visibile:"Logisti",drive:true}]; })()
   };
 }
 async function demoApi(q){
@@ -669,6 +723,21 @@ async function demoApi(q){
     if(a.id) db.avvisi=db.avvisi.map(x=>x.id===a.id?Object.assign({},x,{titolo:a.titolo,testo:a.testo,priorita:a.priorita}):x);
     else db.avvisi.unshift({id:"A"+Date.now(),data:d.toISOString().slice(0,11)+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"),titolo:a.titolo,testo:a.testo,priorita:a.priorita,scadenza:"",autore:u.nome}); }
   if(q.azione==="eliminaAvviso") db.avvisi=db.avvisi.filter(x=>x.id!==q.id);
+  if(q.azione==="sincronizzaGuide"){ save(); return {ok:true, apps:db.apps, guide:db.guide, avvisi:db.avvisi, esito:"sync: nuove 0 · aggiornate 0 · tolte 0"}; }
+  if(["personale","aggiornaPersona","azzeraPin","aggiungiPersona"].includes(q.azione)){
+    db.pers = db.pers || [
+      {id:"U001",nome:"Rossi Mario",qualifica:"Referente suite",attivo:true,admin:true,logista:false,registrato:true,ultimo:new Date().toISOString().slice(0,16),io:true},
+      {id:"U002",nome:"Bianchi Luca",qualifica:"Vigile del Fuoco",attivo:true,admin:false,logista:false,registrato:true,ultimo:new Date(Date.now()-2*36e5).toISOString().slice(0,16)},
+      {id:"U003",nome:"Serra Giovanni",qualifica:"Capo squadra",attivo:true,admin:false,logista:true,registrato:false,ultimo:""},
+      {id:"U004",nome:"Pinna Antonio",qualifica:"Logista",attivo:true,admin:false,logista:true,registrato:true,ultimo:new Date(Date.now()-50*36e5).toISOString().slice(0,16)},
+      {id:"U005",nome:"Melis Francesca",qualifica:"Vigile del Fuoco",attivo:true,admin:false,logista:false,registrato:false,ultimo:""},
+      {id:"U006",nome:"Usai Paolo",qualifica:"Vigile del Fuoco",attivo:false,admin:false,logista:false,registrato:true,ultimo:""}];
+    const P=db.pers.find(x=>x.id===q.id);
+    if(q.azione==="aggiornaPersona"&&P) P[q.campo]=q.valore;
+    if(q.azione==="azzeraPin"&&P) P.registrato=false;
+    if(q.azione==="aggiungiPersona") db.pers.push({id:"U"+(db.pers.length+1).toString().padStart(3,"0"),nome:q.cognome+" "+q.nome,qualifica:q.qualifica,attivo:true,admin:q.admin,logista:q.logista,registrato:false,ultimo:""});
+    save(); return {ok:true, persone:db.pers.slice().sort((a,b)=>a.nome.localeCompare(b.nome))};
+  }
   save(); return {ok:true, apps:db.apps, guide:db.guide, avvisi:db.avvisi, esito:q.canale?"telegram_ok":""};
 }
 
@@ -942,12 +1011,13 @@ function dataIt(d){ if(!d) return ""; const [y,m,g]=d.split("-"); return g+"/"+m
 function tipoInfo(k){ return TIPI.find(t=>t.k===k) || TIPI[4]; }
 function imgOrIcon(ic, size){ return isImg(ic) ? `<img src="${esc(ic)}" alt="" style="width:${size}px;height:${size}px">` : ""; }
 
-const VISTE=["home","guide","avvisi","meteo"];
+const VISTE=["home","guide","avvisi","meteo","personale"];
 function showView(v){
   VISTE.forEach(x=>$(x).hidden = x!==v);
   if(v==="guide") renderGuide();
   if(v==="avvisi"){ renderAvvisi(); segnaLetti(); }
   if(v==="meteo") renderMeteo(true);
+  if(v==="personale") caricaPersonale();
 }
 function showGuide(){ showView("guide"); }
 function backHome(){ showView("home"); renderAvvBanner(); }
@@ -997,7 +1067,7 @@ function renderGuide(){
         <div class="gm">${isNuova(g)?'<span class="badge new">NUOVA</span>':""}<span class="badge">${esc(g.tipo)}</span>${g.visibile&&g.visibile!=="Tutti"?`<span class="badge vis">${g.visibile==="Logisti"?"📦 Logisti":"🔒 Solo admin"}</span>`:""}${sort!=="app"?`<span>${esc(a.nome)}</span> ·`:""}${g.aggiornata?`<span>agg. ${dataIt(g.aggiornata)}</span>`:""}</div>
       </div>
       <span class="go">›</span>
-      <div class="gtools"><button onclick="openGuida(${i})" aria-label="Modifica">✎</button><button class="del" onclick="askDeleteGuida(${i})" aria-label="Elimina">🗑</button></div>
+      ${g.drive?'<span class="drive-note">📁 da Drive<br><small>si cambia dalla cartella</small></span>':`<div class="gtools"><button onclick="openGuida(${i})" aria-label="Modifica">✎</button><button class="del" onclick="askDeleteGuida(${i})" aria-label="Elimina">🗑</button></div>`}
     </a>`;
   };
   let html="";
@@ -1010,7 +1080,7 @@ function renderGuide(){
       html+=`<div class="g-group">${imgOrIcon(a.icona,26)}<span>${esc(a.nome.toUpperCase())}</span><span class="ln"></span></div>`; }
       html+=card(g); });
   } else html=list.map(card).join("");
-  html += '<button class="g-add" onclick="openGuida(-1)">+ Aggiungi guida</button>';
+  html += '<button class="g-add" onclick="openGuida(-1)">+ Aggiungi guida</button><button class="g-sync" id="gSyncBtn" onclick="syncGuide()">🔄 Sincronizza dalla cartella Drive</button>';
   $("gList").innerHTML=html;
 }
 $("gApps").onclick=e=>{ const b=e.target.closest("[data-a]"); if(b){ gApp=b.dataset.a; renderGuide(); } };
@@ -1166,6 +1236,75 @@ function askDeleteAvviso(i){
   openModal("askM");
 }
 
+/* ======================= PERSONALE ======================= */
+let persone=[], pFiltro="tutti";
+const PFIL=[["tutti","Tutti"],["mai","Mai entrati"],["adm","Admin"],["lgs","Logisti"],["off","Disattivati"]];
+async function caricaPersonale(){
+  $("pList").innerHTML='<div class="g-empty">Caricamento…</div>';
+  try{ const r=await api("personale",{token:sess.token}); gestisciPers(r); }
+  catch(e){ $("pList").innerHTML='<div class="g-empty">Nessuna connessione.</div>'; }
+}
+function gestisciPers(r){
+  if(r.ok){ persone=r.persone; renderPersonale(); aggiornaPersStrip(); }
+  else if(r.codice==="SESSIONE") sessioneScaduta();
+  else { setStatus(r.errore||"Errore"); renderPersonale(); }
+}
+function aggiornaPersStrip(){
+  if(!persone.length) return;
+  const mai=persone.filter(p=>p.attivo&&!p.registrato).length;
+  $("nPers").textContent=persone.filter(p=>p.attivo).length+" attivi"+(mai?" · "+mai+" mai entrati":"");
+}
+function renderPersonale(){
+  const q=norm($("pq").value.trim());
+  const conta=k=>persone.filter(p=>filtroP(p,k)).length;
+  $("pFil").innerHTML=PFIL.map(([k,t])=>`<button class="chip noimg ${pFiltro===k?"on":""}" data-f="${k}">${t} <span class="n">${conta(k)}</span></button>`).join("");
+  const list=persone.filter(p=>filtroP(p,pFiltro)).filter(p=>!q||norm(p.nome+" "+p.qualifica).includes(q));
+  $("pList").innerHTML = list.length ? list.map(p=>`
+    <div class="prow ${p.attivo?"":"off"}">
+      <div class="av">${esc(iniziali(p.nome))}</div>
+      <div style="min-width:0"><div class="pn">${esc(p.nome)}${p.io?" (tu)":""}</div>
+        <div class="pq">${p.qualifica?esc(p.qualifica)+" · ":""}${p.registrato?(p.ultimo?"ultimo accesso "+quando(p.ultimo):"PIN creato"):'<span class="mai">mai entrato</span>'}</div></div>
+      <div class="tg3">
+        <button class="att ${p.attivo?"on":""}" onclick="setPers('${p.id}','attivo',${!p.attivo})" ${p.io?"disabled":""} title="Attivo">ATT</button>
+        <button class="lgs ${p.logista?"on":""}" onclick="setPers('${p.id}','logista',${!p.logista})" title="Logista">LOG</button>
+        <button class="adm ${p.admin?"on":""}" onclick="setPers('${p.id}','admin',${!p.admin})" ${p.io?"disabled":""} title="Admin">ADM</button>
+        <button class="key" onclick="askAzzera('${p.id}')" ${p.registrato?"":"disabled"} title="Azzera PIN">🔑</button>
+      </div></div>`).join("") : '<div class="g-empty">Nessuna persona.</div>';
+}
+function filtroP(p,k){ return k==="tutti"?p.attivo : k==="mai"?(p.attivo&&!p.registrato) : k==="adm"?p.admin : k==="lgs"?p.logista : !p.attivo; }
+$("pFil").onclick=e=>{ const b=e.target.closest("[data-f]"); if(b){ pFiltro=b.dataset.f; renderPersonale(); } };
+$("pq").addEventListener("input",renderPersonale);
+async function setPers(id,campo,valore){
+  const p=persone.find(x=>x.id===id); if(p){ p[campo]=valore; renderPersonale(); }
+  try{ const r=await api("aggiornaPersona",{token:sess.token,id,campo,valore}); gestisciPers(r); if(r.ok) setStatus("Salvato ✓"); }
+  catch(e){ setStatus("Nessuna connessione"); caricaPersonale(); }
+}
+function askAzzera(id){
+  const p=persone.find(x=>x.id===id);
+  $("askT").textContent="Azzerare il PIN di "+p.nome+"?";
+  $("askP").textContent="Dovrà rifare il primo accesso (codice squadra → nome → nuovo PIN). Se è entrato su qualche telefono, verrà fatto uscire.";
+  $("askOk").onclick=async()=>{ closeModal("askM");
+    try{ const r=await api("azzeraPin",{token:sess.token,id}); gestisciPers(r); if(r.ok) setStatus("PIN azzerato ✓"); }catch(e){ setStatus("Nessuna connessione"); } };
+  openModal("askM");
+}
+function openPersona(){ ["pfCog","pfNom","pfQua"].forEach(i=>$(i).value=""); $("pfLog").checked=false; $("pfAdm").checked=false; $("pfErr").textContent=""; openModal("persM"); }
+async function savePersona(){
+  const cognome=$("pfCog").value.trim(), nome=$("pfNom").value.trim();
+  if(!cognome||!nome){ $("pfErr").textContent="Scrivi cognome e nome"; return; }
+  busy($("pfSave"),true);
+  try{ const r=await api("aggiungiPersona",{token:sess.token,cognome,nome,qualifica:$("pfQua").value.trim(),logista:$("pfLog").checked,admin:$("pfAdm").checked});
+    if(r.ok){ closeModal("persM"); gestisciPers(r); setStatus("Persona aggiunta ✓"); } else $("pfErr").textContent=r.errore||"Errore"; }
+  catch(e){ $("pfErr").textContent="Nessuna connessione. Riprova."; }
+  busy($("pfSave"),false);
+}
+async function syncGuide(){
+  const b=$("gSyncBtn"); b.disabled=true; b.textContent="🔄 Sincronizzazione…";
+  try{ const r=await api("sincronizzaGuide",{token:sess.token});
+    if(r.ok){ aggiornaTutto(r); setStatus("Guide: "+String(r.esito||"").replace("sync: ","")+" ✓"); }
+    else if(r.codice==="SESSIONE") sessioneScaduta(); else setStatus(r.errore); }
+  catch(e){ setStatus("Nessuna connessione"); }
+}
+
 /* ======================= METEO ======================= */
 const K_METEO="usarSuite.meteo", K_POS="usarSuite.posizione";
 const WMO={0:["☀️","Sereno"],1:["🌤️","Poco nuvoloso"],2:["⛅","Parz. nuvoloso"],3:["☁️","Coperto"],45:["🌫️","Nebbia"],48:["🌫️","Nebbia"],
@@ -1193,7 +1332,9 @@ let meteoDati=null;
 function renderMeteoChip(){
   const c=meteoDati&&meteoDati.current; if(!c){ $("meteoChip").textContent=""; return; }
   const forte = c.wind_gusts_10m>=50;
-  $("meteoChip").innerHTML=`${wmo(c.weather_code)[0]} ${Math.round(c.temperature_2m)}° · 💨 ${Math.round(c.wind_speed_10m)} km/h ${dirTxt(c.wind_direction_10m)}${forte?' <span class="mt-warn">⚠️</span>':""}`;
+  const L=luogo();
+  $("meteoChip").innerHTML=`${L.sede?"":"📍 "}${wmo(c.weather_code)[0]} ${Math.round(c.temperature_2m)}° · 💨 ${Math.round(c.wind_speed_10m)} km/h ${dirTxt(c.wind_direction_10m)}${forte?' <span class="mt-warn">⚠️</span>':""}`;
+  $("meteoChip").title = L.sede ? ("Meteo "+L.nome) : "Meteo della tua posizione";
 }
 function renderMeteo(ricarica){
   const L=luogo();
