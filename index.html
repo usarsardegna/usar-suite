@@ -20,17 +20,19 @@
   --radius:18px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-body{padding-bottom:env(safe-area-inset-bottom);
-  background:radial-gradient(1200px 500px at 50% -200px, rgba(200,16,46,.28), transparent 70%), var(--bg);min-height:100vh}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+body{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;padding-bottom:env(safe-area-inset-bottom);
+  background:radial-gradient(1200px 500px at 50% -200px, rgba(200,16,46,.28), transparent 70%), var(--bg)}
+main{flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto;width:100%}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 .wrap{max-width:560px;margin:0 auto;padding:0 16px}
+@media (min-width:900px){ .wrap{max-width:980px} }
 [hidden]{display:none!important}
 
 /* ===== INTESTAZIONE ===== */
 header{background:rgba(27,35,46,.92);backdrop-filter:blur(8px);border-bottom:3px solid var(--red);
-  padding:calc(10px + env(safe-area-inset-top)) 0 10px;position:sticky;top:0;z-index:5}
+  padding:calc(8px + env(safe-area-inset-top)) 0 8px;flex-shrink:0}
 .hdr{display:flex;align-items:center;gap:10px}
 .logos{display:flex;gap:6px;flex-shrink:0}
 .logo{width:46px;height:46px;object-fit:contain}
@@ -43,11 +45,11 @@ header{background:rgba(27,35,46,.92);backdrop-filter:blur(8px);border-bottom:3px
 .hdr-btn.on{background:var(--amber);color:#1b232e;border-color:var(--amber)}
 
 /* ===== ACCESSO ===== */
-.auth{padding-top:26px}
-.auth-logo{display:block;width:120px;height:120px;margin:0 auto;object-fit:contain;filter:drop-shadow(0 6px 16px rgba(0,0,0,.5))}
+.auth{padding-top:clamp(10px,3vh,26px);max-width:560px;width:100%;margin:0 auto}
+.auth-logo{display:block;width:clamp(70px,15vh,120px);height:clamp(70px,15vh,120px);margin:0 auto;object-fit:contain;filter:drop-shadow(0 6px 16px rgba(0,0,0,.5))}
 .suite-title{text-align:center;margin:12px 0 2px;font-weight:800;font-size:23px;letter-spacing:1px}
 .suite-title span{color:var(--red2)}
-.suite-sub{text-align:center;color:var(--muted);font-size:13.5px;margin-bottom:20px}
+.suite-sub{text-align:center;color:var(--muted);font-size:13.5px;margin-bottom:clamp(10px,2.5vh,20px)}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 16px}
 .card h2{margin:0 0 4px;font-size:18px}
 .card p{margin:0 0 14px;color:var(--muted);font-size:14px;line-height:1.45}
@@ -65,32 +67,46 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--red),#7a0a1c);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;flex-shrink:0}
 
 /* ===== HOME ===== */
-.hero{margin:16px 0 16px;border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:14px;
+#home{flex:1;min-height:0;display:flex;flex-direction:column}
+.hero{margin:clamp(8px,2vh,16px) 0 clamp(8px,1.6vh,14px);border-radius:var(--radius);padding:clamp(10px,1.8vh,16px);flex-shrink:0;display:flex;align-items:center;gap:14px;
   background:linear-gradient(120deg,#8e0c22 0%,#c8102e 35%,#3b2633 70%,#1f2a38 100%);
   box-shadow:0 10px 30px rgba(200,16,46,.25);position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;
   border:22px solid rgba(255,255,255,.06)}
-.hero img{width:74px;height:74px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));position:relative;z-index:1}
+.hero img{width:clamp(52px,8vh,74px);height:clamp(52px,8vh,74px);object-fit:contain;flex-shrink:0;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));position:relative;z-index:1}
 .hero .hi{font-size:13px;opacity:.85}
-.hero .nm{font-size:21px;font-weight:800;line-height:1.15}
+.hero .nm{font-size:clamp(18px,2.6vh,21px);font-weight:800;line-height:1.15}
 .hero .dt{font-size:13px;opacity:.85;margin-top:4px}
-.hero-txt{position:relative;z-index:1;min-width:0}
-.section{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 10px;color:var(--muted);font-size:12.5px;font-weight:700;letter-spacing:1px}
-.adminbar{display:flex;align-items:center;gap:10px;background:rgba(242,169,0,.12);border:1px solid rgba(242,169,0,.5);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:14px}
+.hero-txt{position:relative;z-index:1;min-width:0;flex:1}
+.hero-acts{position:relative;z-index:1;display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.hero-acts button{background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:10px;padding:7px 10px;font-size:13px;font-weight:600;white-space:nowrap}
+.section{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;margin:4px 2px 10px;color:var(--muted);font-size:12.5px;font-weight:700;letter-spacing:1px}
+.adminbar{flex-shrink:0;display:flex;align-items:center;gap:10px;background:rgba(242,169,0,.12);border:1px solid rgba(242,169,0,.5);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:14px}
 .adminbar b{color:var(--amber)}
 .adminbar button{margin-left:auto;background:var(--amber);color:#1b232e;border:none;border-radius:10px;padding:8px 14px;font-weight:700}
 
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:minmax(124px,1fr);gap:12px;overflow-y:auto;padding-bottom:2px}
+@media (min-width:700px){
+  .grid{grid-auto-rows:clamp(170px,28vh,250px);align-content:start}
+  .ico.img{width:clamp(80px,12vh,112px);height:clamp(80px,12vh,112px)}
+  .tile .t{font-size:17px} .tile .d{font-size:13px}
+}
+@media (min-width:900px){ .grid{grid-template-columns:repeat(4,1fr)} }
+@media (max-width:380px){
+  .hdr-txt .l1{font-size:14px;white-space:nowrap} .hdr-txt .l2{font-size:10.5px;white-space:nowrap} .logo{width:38px;height:38px} .hdr{gap:8px}
+  .hero-acts button{padding:6px 8px;font-size:12px}
+}
+body.admin .grid{grid-auto-rows:minmax(178px,auto)}
 .tile{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;
   background:linear-gradient(180deg,var(--panel) 0%,#18202a 100%);border:1px solid var(--line);border-radius:var(--radius);
-  padding:16px 10px 14px;text-decoration:none;color:var(--text);min-height:168px;overflow:hidden;transition:transform .12s}
+  padding:clamp(10px,1.6vh,16px) 10px clamp(8px,1.4vh,14px);justify-content:center;text-decoration:none;color:var(--text);overflow:hidden;transition:transform .12s}
 .tile:active{transform:scale(.96)}
 .tile::before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:var(--c,#c8102e)}
-.tile::after{content:"";position:absolute;left:50%;top:18px;width:90px;height:90px;transform:translateX(-50%);border-radius:50%;
-  background:radial-gradient(circle,var(--c,#c8102e) 0%,transparent 70%);opacity:.22}
+.ico::before{content:"";position:absolute;inset:-22%;border-radius:50%;z-index:-1;
+  background:radial-gradient(circle,var(--c,#c8102e) 0%,transparent 70%);opacity:.28}
 .ico{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:var(--c,#c8102e);position:relative;z-index:1}
 .ico svg{width:32px;height:32px;color:#fff}
-.ico.img{width:86px;height:86px;background:none;border-radius:0}
+.ico.img{width:clamp(56px,10vh,92px);height:clamp(56px,10vh,92px);background:none;border-radius:0}
 .ico.img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
 .tile .t{font-weight:800;font-size:15.5px;line-height:1.2;position:relative;z-index:1}
 .tile .d{font-size:12px;color:var(--muted);line-height:1.3;position:relative;z-index:1}
@@ -99,15 +115,15 @@ body.admin .tools{display:flex}
 .tools button{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:7px 0;font-size:14px}
 .tools button.del{color:var(--red2)}
 .add{display:none;border:2px dashed var(--amber);background:transparent;color:var(--amber);align-items:center;justify-content:center;
-  font-weight:700;font-size:15px;min-height:168px;border-radius:var(--radius);flex-direction:column;gap:6px}
+  font-weight:700;font-size:15px;min-height:124px;border-radius:var(--radius);flex-direction:column;gap:6px}
 .add span{font-size:34px;line-height:1}
 body.admin .add{display:flex}
 .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:30px 10px;background:var(--panel);border-radius:var(--radius);border:1px solid var(--line)}
-.status{text-align:center;font-size:12px;color:var(--muted);margin:14px 0 4px;min-height:16px}
+.status{flex-shrink:0;text-align:center;font-size:12px;color:var(--muted);margin:8px 0 0;min-height:16px}
 .acts{display:flex;gap:10px;margin-top:18px}
 .acts button{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:14px;color:var(--muted)}
 
-footer{margin:22px 0 30px;text-align:center;font-size:12px;color:var(--muted);line-height:1.5}
+footer{flex-shrink:0;margin:auto 0 0;padding:8px 0 10px;text-align:center;font-size:11.5px;color:var(--muted);line-height:1.4}
 footer button{background:none;border:none;color:var(--amber);text-decoration:underline;font-size:12.5px;padding:4px}
 
 /* ===== FINESTRE ===== */
@@ -218,6 +234,10 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
         <div class="nm" id="uName"></div>
         <div class="dt" id="uDate"></div>
       </div>
+      <div class="hero-acts">
+        <button onclick="startCambioPin()">🔑 PIN</button>
+        <button onclick="logout()">🚪 Esci</button>
+      </div>
     </div>
 
     <div class="adminbar" id="adminbar" hidden><div><b>Modalità gestione</b><br>Aggiungi, modifica, sposta le app</div><button onclick="toggleAdmin()">Fine</button></div>
@@ -225,15 +245,10 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
     <div class="grid" id="grid"></div>
     <div class="status" id="status"></div>
 
-    <div class="acts">
-      <button onclick="startCambioPin()">🔑 Cambia PIN</button>
-      <button onclick="logout()">🚪 Esci</button>
-    </div>
   </section>
 
-  <footer>
-    Iniziativa non ufficiale del team USAR M Sardegna<br>
-    <button onclick="openModal('info')">Informazioni e avvertenze</button> · v<span id="ver"></span>
+  <footer class="wrap">
+    Iniziativa non ufficiale del team USAR M Sardegna · <button onclick="openModal('info')">Info e avvertenze</button> · v<span id="ver"></span>
   </footer>
 </main>
 
@@ -309,7 +324,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.0",
+  VERSIONE: "2.1",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
@@ -418,20 +433,32 @@ function buildPad(){
   $("dots").innerHTML = Array.from({length:CONFIG.PIN_LEN},()=>'<div class="dot"></div>').join("");
   $("pad").innerHTML = ["1","2","3","4","5","6","7","8","9","","0","C"].map(k=>
     k==="" ? '<div></div>' : k==="C" ? '<button class="key fn" data-k="C">⌫</button>' : `<button class="key" data-k="${k}">${k}</button>`).join("");
-  $("pad").onclick = async e=>{
+  $("pad").onclick = e=>{
     const b=e.target.closest("button"); if(!b||b.disabled) return;
-    if(b.dataset.k==="C") ppPin=ppPin.slice(0,-1);
-    else if(ppPin.length<CONFIG.PIN_LEN) ppPin+=b.dataset.k;
-    paintDots();
-    if(ppPin.length===CONFIG.PIN_LEN && ppCb){
-      const p=ppPin; padOff(true); ppMsg("Verifica…",true);
-      let err="";
-      try{ err = await ppCb(p); }catch(x){ err="Nessuna connessione. Riprova."; }
-      padOff(false);
-      if(err){ $("dots").classList.add("shake"); setTimeout(()=>$("dots").classList.remove("shake"),400); ppPin=""; paintDots(); ppMsg(err); }
-    }
+    pressKey(b.dataset.k);
   };
 }
+let ppBusy=false;
+async function pressKey(k){
+    if(ppBusy) return;
+    if(k==="C") ppPin=ppPin.slice(0,-1);
+    else if(ppPin.length<CONFIG.PIN_LEN) ppPin+=k;
+    paintDots();
+    if(ppPin.length===CONFIG.PIN_LEN && ppCb){
+      const p=ppPin; padOff(true); ppBusy=true; ppMsg("Verifica…",true);
+      let err="";
+      try{ err = await ppCb(p); }catch(x){ err="Nessuna connessione. Riprova."; }
+      padOff(false); ppBusy=false;
+      if(err){ $("dots").classList.add("shake"); setTimeout(()=>$("dots").classList.remove("shake"),400); ppPin=""; paintDots(); ppMsg(err); }
+    }
+}
+/* Numeri anche dalla tastiera del computer (riga numeri e tastierino) */
+document.addEventListener("keydown", e=>{
+  if(!$("pinM").classList.contains("open")) return;
+  if(/^[0-9]$/.test(e.key)){ e.preventDefault(); pressKey(e.key); }
+  else if(e.key==="Backspace"){ e.preventDefault(); pressKey("C"); }
+  else if(e.key==="Escape"){ closePin(); }
+});
 function paintDots(){ [...$("dots").children].forEach((d,i)=>d.classList.toggle("on",i<ppPin.length)); }
 function ppMsg(t,info){ $("msg").textContent=t||""; $("msg").className="msg"+(info?" info":""); }
 function padOff(v){ [...$("pad").querySelectorAll("button")].forEach(b=>b.disabled=v); }
@@ -630,6 +657,7 @@ async function start(){
   $("ver").textContent=CONFIG.VERSIONE;
   buildPad();
   $("inCode").addEventListener("keydown",e=>{ if(e.key==="Enter") stepCode(); });
+  $("selName").addEventListener("keydown",e=>{ if(e.key==="Enter") stepName(); });
   sess=store.get(K_SESS);
   if(!sess||!sess.token){ showAuth(); return; }
   showHome("Aggiornamento…");
