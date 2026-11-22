@@ -221,6 +221,8 @@ body.admin .g-add{display:block}
 body.admin .acard .gtools{display:flex}
 .seg{display:flex;gap:8px}
 .seg button{flex:1;padding:11px 6px;border-radius:12px;border:2px solid var(--line);background:var(--panel2);font-weight:700;font-size:14px}
+.seg.vis button{--pc:#f2a900;font-size:13px;padding:10px 4px}
+.badge.vis{background:#3a2f10;color:#f2c14a}
 .seg.tg button{--pc:#2aa1da;font-size:13px;padding:10px 4px}
 .seg button:disabled{opacity:.35}
 .seg button.on{border-color:var(--pc);background:color-mix(in srgb,var(--pc) 25%,var(--panel2))}
@@ -477,6 +479,13 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
     <select class="in" id="gfApp"></select>
     <label>Tipo</label>
     <select class="in" id="gfTipo"></select>
+    <label>Chi la vede</label>
+    <div class="seg vis" id="gfVis">
+      <button data-v="Tutti">👥 Tutti</button>
+      <button data-v="Logisti">📦 Logisti</button>
+      <button data-v="Solo admin">🔒 Solo admin</button>
+    </div>
+    <div class="hint" id="gfVisHint"></div>
     <label>Descrizione (facoltativa)</label>
     <input class="in" id="gfDesc" maxlength="90" placeholder="es. Come rispondere a un'attivazione">
     <label>Link del PDF</label>
@@ -551,7 +560,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.4.1",
+  VERSIONE: "2.5",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
@@ -627,13 +636,15 @@ function demoDb(){
       {id:"G6",titolo:"Guida uso Logistica",app:"LOGISTICA",tipo:"Guida uso",descrizione:"Uscite e rientri delle attrezzature, scansione QR",link:"https://esempio.it",aggiornata:d(30)},
       {id:"G7",titolo:"Procedura carico materiale in partenza",app:"LOGISTICA",tipo:"Procedura",descrizione:"Check-list per il carico dei mezzi",link:"https://esempio.it",aggiornata:d(45)},
       {id:"G8",titolo:"Guida uso Accessi Area Rossa",app:"ACCESSI",tipo:"Guida uso",descrizione:"Tessere QR, ingresso e uscita dal cantiere",link:"https://esempio.it",aggiornata:d(3)},
-      {id:"G9",titolo:"Guida uso USAR-TAC",app:"USARTAC",tipo:"Guida uso",descrizione:"Ricerca edificio, settori e report",link:"https://esempio.it",aggiornata:d(10)}]; })()
+      {id:"G9",titolo:"Guida uso USAR-TAC",app:"USARTAC",tipo:"Guida uso",descrizione:"Ricerca edificio, settori e report",link:"https://esempio.it",aggiornata:d(10)},
+      {id:"G10",titolo:"Guida admin USAR Suite",app:"SUITE",tipo:"Guida uso",descrizione:"Gestione app, guide, avvisi e personale",link:"https://esempio.it",aggiornata:d(0),visibile:"Solo admin"},
+      {id:"G11",titolo:"Guida gestionale magazzino (logista)",app:"LOGISTICA",tipo:"Guida uso",descrizione:"Inventario, carichi e scarichi",link:"https://esempio.it",aggiornata:d(2),visibile:"Logisti"}]; })()
   };
 }
 async function demoApi(q){
   await new Promise(r=>setTimeout(r,250));
   const db = demoDb(), save=()=>store.set("usarSuite.demo",db);
-  const resp = u => ({ok:true, token:"demo."+u.id, utente:{id:u.id,nome:u.nome}, nome:u.nome, qualifica:u.qualifica, admin:u.admin, apps:db.apps, guide:db.guide, avvisi:db.avvisi, meteo:db.meteo, telegram:{regionale:true,comando:true}});
+  const resp = u => ({ok:true, token:"demo."+u.id, utente:{id:u.id,nome:u.nome}, nome:u.nome, qualifica:u.qualifica, admin:u.admin, apps:db.apps, guide:db.guide.filter(g=>!g.visibile||g.visibile==="Tutti"||u.admin||(g.visibile==="Logisti"&&u.logista)), avvisi:db.avvisi, meteo:db.meteo, telegram:{regionale:true,comando:true}});
   const daTok = t => db.utenti.find(u=>"demo."+u.id===t && u.pin);
   const cod = () => String(q.codice||"").trim().toUpperCase()===db.codice;
   switch(q.azione){
@@ -983,7 +994,7 @@ function renderGuide(){
       <div style="min-width:0">
         <div class="gt">${evidenzia(g.titolo,q)}</div>
         ${g.descrizione?`<div class="gd">${evidenzia(g.descrizione,q)}</div>`:""}
-        <div class="gm">${isNuova(g)?'<span class="badge new">NUOVA</span>':""}<span class="badge">${esc(g.tipo)}</span>${sort!=="app"?`<span>${esc(a.nome)}</span> ·`:""}${g.aggiornata?`<span>agg. ${dataIt(g.aggiornata)}</span>`:""}</div>
+        <div class="gm">${isNuova(g)?'<span class="badge new">NUOVA</span>':""}<span class="badge">${esc(g.tipo)}</span>${g.visibile&&g.visibile!=="Tutti"?`<span class="badge vis">${g.visibile==="Logisti"?"📦 Logisti":"🔒 Solo admin"}</span>`:""}${sort!=="app"?`<span>${esc(a.nome)}</span> ·`:""}${g.aggiornata?`<span>agg. ${dataIt(g.aggiornata)}</span>`:""}</div>
       </div>
       <span class="go">›</span>
       <div class="gtools"><button onclick="openGuida(${i})" aria-label="Modifica">✎</button><button class="del" onclick="askDeleteGuida(${i})" aria-label="Elimina">🗑</button></div>
@@ -1007,7 +1018,10 @@ $("gTipi").onclick=e=>{ const b=e.target.closest("[data-t]"); if(b){ gTipo=b.dat
 $("gq").addEventListener("input",renderGuide);
 $("gSort").addEventListener("change",renderGuide);
 
-let gEdit=-1;
+let gEdit=-1, gVis="Tutti";
+const VIS_HINT={"Tutti":"La vedono tutti.","Logisti":"La vedono solo i logisti (spunta LOGISTA nel foglio UTENTI) e gli admin.","Solo admin":"La vedono solo gli admin. Su Drive lasciate il PDF “Con restrizioni”."};
+function setVis(v){ gVis=v; [...$("gfVis").children].forEach(b=>b.classList.toggle("on",b.dataset.v===v)); $("gfVisHint").textContent=VIS_HINT[v]; }
+$("gfVis").onclick=e=>{ const b=e.target.closest("[data-v]"); if(b) setVis(b.dataset.v); };
 function openGuida(i){
   gEdit=i; const g = i>=0 ? guide()[i] : {titolo:"",app:gApp||"SUITE",tipo:"Guida uso",descrizione:"",link:""};
   $("gfTitle").textContent = i>=0?"Modifica guida":"Nuova guida";
@@ -1016,6 +1030,7 @@ function openGuida(i){
   if(g.app && !opts.some(o=>o[0]===g.app)) opts.push([g.app,g.app]);
   $("gfApp").innerHTML=opts.map(o=>`<option value="${esc(o[0])}" ${o[0]===g.app?"selected":""}>${esc(o[1])}</option>`).join("");
   $("gfTipo").innerHTML=TIPI.map(t=>`<option ${t.k===g.tipo?"selected":""}>${t.k}</option>`).join("");
+  setVis(g.visibile||"Tutti");
   $("gfErr").textContent=""; openModal("guideM");
 }
 async function saveGuida(){
@@ -1023,7 +1038,7 @@ async function saveGuida(){
   if(!titolo){ $("gfErr").textContent="Scrivi il titolo"; return; }
   if(link && !/^https?:\/\//i.test(link)) link="https://"+link;
   if(!/^https:\/\/[^\s.]+\.[^\s]+$/i.test(link)){ $("gfErr").textContent="Incolla il link del PDF (https://…)"; return; }
-  const guida={titolo, app:$("gfApp").value, tipo:$("gfTipo").value, descrizione:$("gfDesc").value.trim(), link};
+  const guida={titolo, app:$("gfApp").value, tipo:$("gfTipo").value, descrizione:$("gfDesc").value.trim(), link, visibile:gVis};
   if(gEdit>=0) guida.id=guide()[gEdit].id;
   busy($("gfSave"),true); $("gfErr").textContent="";
   try{
