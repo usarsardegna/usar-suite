@@ -192,6 +192,9 @@ body.admin .g-add{display:block}
 .hint{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.4}
 
 /* ===== METEO (chip) ===== */
+.meteo-chip .mi{font-size:19px;line-height:1}
+.meteo-chip .mc-t{display:none}
+@media (min-width:430px){.meteo-chip .mc-t{display:inline}}
 .meteo-chip{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;margin-top:6px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.22);
   border-radius:20px;padding:4px 10px;font-size:13px;font-weight:600;color:#fff}
 .meteo-chip:empty{display:none}
@@ -275,6 +278,59 @@ body.admin .pers-strip{display:flex}
 .g-sync{display:none;width:100%;border:1px solid rgba(80,150,220,.55);background:rgba(31,111,178,.15);color:#8ec2f0;border-radius:14px;padding:12px;font-weight:700;font-size:14px;margin-top:8px}
 body.admin .g-sync{display:block}
 
+/* ===== METEO stile USAR-TAC ===== */
+#meteo{overflow-y:auto}
+.mt-top{flex-shrink:0;display:flex;gap:10px;margin-bottom:10px;align-items:stretch}
+.mt-comp{flex-shrink:0;width:128px;height:128px;position:relative}
+.mt-comp svg{width:100%;height:100%}
+.mt-comp .sp{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;font-size:28px;line-height:1}
+.mt-comp .sp small{font-size:12px;color:var(--muted);font-weight:600;margin-top:3px}
+.mt-cards{flex:1;min-width:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mt-card{background:#0b1016;border:1px solid var(--line);border-radius:12px;padding:8px 10px;min-width:0}
+.mt-card .k{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.6px}
+.mt-card .v{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:18px;font-weight:700;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt-card.warn{border-color:#f2a900} .mt-card.warn .v{color:#f2a900}
+.mt-sky{flex-shrink:0;display:flex;align-items:center;gap:12px;background:#0b1016;border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin-bottom:10px}
+.mt-sky .si{font-size:44px;line-height:1}
+.mt-sky .k{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.6px}
+.mt-sky .v{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:19px;font-weight:700}
+.mt-sky .x{margin-left:auto;text-align:right;font-size:12px;color:var(--muted);line-height:1.4}
+.mt-hrs{flex-shrink:0;display:flex;gap:7px;overflow-x:auto;margin-bottom:10px;scrollbar-width:none;padding-bottom:2px}
+.mt-hrs::-webkit-scrollbar{display:none}
+.mt-hr{flex-shrink:0;width:64px;background:#0b1016;border:1px solid var(--line);border-radius:12px;padding:7px 4px;text-align:center;font-size:12px;line-height:1.35}
+.mt-hr .t{color:var(--muted);font-family:ui-monospace,Menlo,Consolas,monospace}
+.mt-hr .i{font-size:24px;line-height:1.2}
+.mt-hr .a{display:inline-block;color:#4a9cf0;font-size:16px;font-weight:800}
+.mt-hr .w{font-weight:800;font-size:14px}
+.mt-hr .p{color:#6cb6ff}
+.mt-hr.warn{border-color:#f2a900} .mt-hr.warn .w{color:#f2a900}
+/* ===== TESSERE ADATTIVE ===== */
+.grid{--ico:92px}
+.grid .ico.img{width:var(--ico);height:var(--ico)}
+.grid .ico:not(.img){width:calc(var(--ico)*.66);height:calc(var(--ico)*.66)}
+.grid .ico:not(.img) svg{width:55%;height:55%}
+.grid.nodesc .tile .d{display:none}
+.grid.nodesc .tile{padding:8px 6px;gap:4px}
+.grid.nodesc .tile .t{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+/* ===== SPLASH ===== */
+#splash{position:fixed;inset:0;z-index:50;background:radial-gradient(900px 600px at 50% 35%,rgba(200,16,46,.25),transparent 70%),#11161d;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .45s}
+#splash.out{opacity:0;pointer-events:none}
+#splash .sl{width:min(60vw,290px);height:auto;filter:drop-shadow(0 10px 24px rgba(0,0,0,.6));animation:pop .6s ease-out}
+#splash .ss{width:min(66vw,320px);height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));animation:pop .6s .1s ease-out both}
+#splash .st{font-size:13px;letter-spacing:4px;color:#9aa8b8;font-weight:700}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+/* ===== CASSAFORTE PIN ===== */
+.vault-strip{display:none;flex-shrink:0;align-items:center;gap:10px;width:100%;margin:0 0 12px;padding:11px 14px;border-radius:14px;
+  background:linear-gradient(90deg,rgba(200,16,46,.25),rgba(200,16,46,.05));border:1px solid rgba(232,56,79,.55);color:var(--text);font-size:15px;text-align:left}
+body.admin .vault-strip{display:flex}
+.vrow{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.vrow .vv{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:18px;font-weight:800;letter-spacing:1px}
+.vrow .vn{font-size:12px;color:var(--muted)}
+.vrow .vb{margin-left:auto;display:flex;gap:6px;flex-shrink:0}
+.vrow .vb button{background:var(--panel2);border:1px solid var(--line);border-radius:9px;width:38px;height:38px}
+.up-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:8px;padding:11px;border-radius:12px;border:1px dashed var(--amber);background:transparent;color:var(--amber);font-weight:700;font-size:14px}
+
 /* ===== FINESTRE ===== */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center;z-index:20}
 .modal.open{display:flex}
@@ -317,6 +373,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
 </head>
 <body>
 
+<div id="splash" hidden><img class="sl" src="icon-splash-512.png" alt=""><img class="ss" src="logo-scritta.png" alt="Team USAR Sardegna"><div class="st">USAR-SAR01 SUITE</div></div>
 <header>
   <div class="wrap hdr">
     <div class="logos">
@@ -392,6 +449,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
 
     <div class="adminbar" id="adminbar" hidden><div><b>Modalità gestione</b><br>Aggiungi, modifica, sposta le app</div><button onclick="toggleAdmin()">Fine</button></div>
     <button class="avv-banner" id="avvBanner" onclick="showView('avvisi')" hidden></button>
+    <button class="vault-strip" onclick="apriVault()"><span style="font-size:20px">🔐</span><b>PIN delle app</b><span style="margin-left:auto;color:#f39aa6;font-weight:700;font-size:13px">solo admin</span>›</button>
     <button class="pers-strip" onclick="showView('personale')"><span style="font-size:20px">👥</span><b>Personale</b><span class="n" id="nPers">gestisci accessi e PIN</span>›</button>
     <button class="guide-strip" onclick="showGuide()"><span class="gs-ico">📚</span><b>Guide e manuali</b><span class="gs-n" id="nGuide"></span>›</button>
     <div class="section"><span>LE TUE APP</span><span id="nApps"></span></div>
@@ -419,13 +477,21 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
     <div class="v-list" id="pList"></div>
   </section>
 
+  <!-- ================= CASSAFORTE PIN ================= -->
+  <section id="vault" class="view" hidden>
+    <div class="g-top"><button class="back" onclick="chiudiVault()">← App</button><h2>🔐 PIN delle app</h2>
+      <button class="back" style="margin-left:auto" onclick="openVoce(-1)">+ Aggiungi</button></div>
+    <div class="hint" style="flex-shrink:0;margin:0 2px 8px">Promemoria dei PIN e codici delle app, visibile solo agli admin. Tocca 👁 per vedere, 📋 per copiare.</div>
+    <div class="v-list" id="vList"></div>
+  </section>
+
   <!-- ================= METEO ================= -->
   <section id="meteo" class="view" hidden>
     <div class="g-top"><button class="back" onclick="backHome()">← App</button><h2>🌦️ Meteo</h2><span id="mtLuogo" style="margin-left:auto;color:var(--muted);font-size:13px;text-align:right"></span></div>
-    <div class="mt-now" id="mtNow"></div>
-    <div class="mt-grid" id="mtGrid"></div>
-    <div class="mt-hours" id="mtHours"></div>
-    <div class="mt-map" id="mtMap"></div>
+    <div class="mt-top"><div class="mt-comp" id="mtComp"></div><div class="mt-cards" id="mtCards"></div></div>
+    <div class="mt-sky" id="mtSky"></div>
+    <div class="mt-hrs" id="mtHrs"></div>
+    <div class="mt-map" id="mtMap" style="min-height:230px"></div>
     <div class="mt-acts">
       <button id="mtPos" onclick="meteoPosizione()">📍 La mia posizione</button>
       <a id="mtWindy" href="https://www.windy.com" target="_blank" rel="noopener">🌬️ Apri Windy</a>
@@ -502,6 +568,8 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
     <input class="in" id="fLink" inputmode="url" placeholder="https://...">
     <label>Icona</label>
     <div class="picker" id="fIcons"></div>
+    <button class="up-btn" type="button" onclick="$('fFile').click()">🖼️ Carica icona personalizzata (PNG/JPG)</button>
+    <input type="file" id="fFile" accept="image/*" hidden>
     <label>Colore</label>
     <div class="colors" id="fColors"></div>
     <div class="preview" id="fPrev"></div>
@@ -574,6 +642,21 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
   </div>
 </div>
 
+<!-- MODULO VOCE PIN -->
+<div class="modal" id="voceM">
+  <div class="sheet">
+    <h2 id="vfTitle">Nuovo PIN / codice</h2>
+    <label>App</label><select class="in" id="vfApp"></select>
+    <label>Cosa è (es. PIN attivatori, PIN admin, codice squadra)</label><input class="in" id="vfVoce" maxlength="50">
+    <label>PIN / codice</label><input class="in" id="vfVal" maxlength="80" autocomplete="off" style="font-family:ui-monospace,monospace;letter-spacing:2px">
+    <label>Note (facoltative)</label><input class="in" id="vfNote" maxlength="120" placeholder="es. dato a: capisquadra">
+    <div class="hint">Cambiarlo qui <b>non</b> cambia il PIN dentro l'app: aggiornalo anche nell'app.</div>
+    <div class="err" id="vfErr"></div>
+    <button class="btn" id="vfSave" onclick="saveVoce()">Salva</button>
+    <button class="btn sec" onclick="closeModal('voceM')">Annulla</button>
+  </div>
+</div>
+
 <!-- MODULO PERSONA -->
 <div class="modal" id="persM">
   <div class="sheet">
@@ -618,13 +701,13 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.6.3",
+  VERSIONE: "2.7",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
 
 /* Loghi delle app presenti nella cartella (scelta rapida nel modulo) */
-const LOGHI = ["app-attivazioni.png","app-logistica.png","app-accessi.png","app-usartac.png"];
+const LOGHI = ["app-attivazioni.png","app-logistica.png","app-accessi.png","app-usartac.png","app-posizione.png","app-quadro.png"];
 
 const ICONS = {
   attivazioni:'<path d="M7 18v-6a5 5 0 0 1 10 0v6"/><path d="M5 21h14v-3H5z"/><path d="M12 2v2M4.2 5.2l1.4 1.4M19.8 5.2l-1.4 1.4M2 12h2M20 12h2"/>',
@@ -679,7 +762,9 @@ function demoDb(){
       {id:"ATTIVAZIONI",nome:"Attivazioni",descrizione:"Attivazione squadre e disponibilità",link:"https://esempio.it",icona:"app-attivazioni.png",colore:"#c8102e"},
       {id:"LOGISTICA",nome:"Logistica",descrizione:"Uscite e rientri attrezzature",link:"https://esempio.it",icona:"app-logistica.png",colore:"#e07a10"},
       {id:"ACCESSI",nome:"Accessi Area Rossa",descrizione:"Ingressi e uscite dal cantiere",link:"https://esempio.it",icona:"app-accessi.png",colore:"#f2a900"},
-      {id:"USARTAC",nome:"USAR-TAC",descrizione:"Edificio 3D e settori di ricerca",link:"https://esempio.it",icona:"app-usartac.png",colore:"#1f6fb2"}],
+      {id:"USARTAC",nome:"USAR-TAC",descrizione:"Edificio 3D e settori di ricerca",link:"https://esempio.it",icona:"app-usartac.png",colore:"#1f6fb2"},
+      {id:"POSIZIONE",nome:"La mia posizione",descrizione:"Tracciamento posizione squadre",link:"https://esempio.it",icona:"app-posizione.png",colore:"#2fb36d"},
+      {id:"QUADRO",nome:"Quadro operativo",descrizione:"Streaming live - evento in corso",link:"https://esempio.it",icona:"app-quadro.png",colore:"#1f6fb2"}],
     avvisi:(()=>{ const t=h=>{ const d=new Date(Date.now()-h*36e5); return d.toISOString().slice(0,11)+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); }; return [
       {id:"A3",data:t(1),titolo:"Esercitazione sabato 29 novembre",testo:"Ritrovo in sede alle 8:00 con DPI completi.\nPortare torcia frontale e acqua.",priorita:"Importante",scadenza:"",autore:"Rossi Mario"},
       {id:"A2",data:t(26),titolo:"Aggiornata l'app Logistica",testo:"Nuova funzione di scansione QR per i rientri. Guida nella sezione Guide.",priorita:"Normale",scadenza:"",autore:"Rossi Mario"},
@@ -727,6 +812,17 @@ async function demoApi(q){
     if(a.id) db.avvisi=db.avvisi.map(x=>x.id===a.id?Object.assign({},x,{titolo:a.titolo,testo:a.testo,priorita:a.priorita}):x);
     else db.avvisi.unshift({id:"A"+Date.now(),data:d.toISOString().slice(0,11)+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"),titolo:a.titolo,testo:a.testo,priorita:a.priorita,scadenza:"",autore:u.nome}); }
   if(q.azione==="eliminaAvviso") db.avvisi=db.avvisi.filter(x=>x.id!==q.id);
+  if(["vault","salvaVault","eliminaVault"].includes(q.azione)){
+    if(q.pin!=="482915") return {ok:false,errore:"PIN errato"};
+    db.vault=db.vault||[{id:"V1",app:"ATTIVAZIONI",voce:"PIN attivatori",valore:"731904",note:"capisquadra",agg:new Date().toISOString().slice(0,16),chi:"Rossi Mario"},
+      {id:"V2",app:"ATTIVAZIONI",voce:"PIN admin",valore:"559281",note:"",agg:new Date().toISOString().slice(0,16),chi:"Rossi Mario"},
+      {id:"V3",app:"ACCESSI",voce:"PIN varco",valore:"204617",note:"addetti varco",agg:new Date().toISOString().slice(0,16),chi:"Rossi Mario"},
+      {id:"V4",app:"SUITE",voce:"Codice squadra",valore:"USAR4821",note:"primo accesso",agg:new Date().toISOString().slice(0,16),chi:"Rossi Mario"}];
+    if(q.azione==="salvaVault"){ const v=q.voce; v.agg=new Date().toISOString().slice(0,16); v.chi=u?u.nome:"";
+      if(v.id) db.vault=db.vault.map(x=>x.id===v.id?Object.assign({},x,v):x); else { v.id="V"+Date.now(); db.vault.push(v); } }
+    if(q.azione==="eliminaVault") db.vault=db.vault.filter(x=>x.id!==q.id);
+    save(); return {ok:true, voci:db.vault};
+  }
   if(q.azione==="sincronizzaGuide"){ save(); return {ok:true, apps:db.apps, guide:db.guide, avvisi:db.avvisi, esito:"sync: nuove 0 · aggiornate 0 · tolte 0"}; }
   if(["personale","aggiornaPersona","azzeraPin","aggiungiPersona"].includes(q.azione)){
     db.pers = db.pers || [
@@ -747,7 +843,7 @@ async function demoApi(q){
 
 /* ======================= UTILITÀ ======================= */
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-function isImg(ic){ return /^https:\/\//i.test(ic) || /^[\w.-]+\.(png|jpe?g|webp|svg)$/i.test(ic); }
+function isImg(ic){ ic=String(ic||""); return /^https:\/\//i.test(ic) || /^[\w.-]+\.(png|jpe?g|webp|svg)$/i.test(ic) || /^data:image\/(png|jpeg|webp);base64,/i.test(ic); }
 function iconHtml(ic){
   ic = String(ic||"").trim();
   if(isImg(ic)) return `<div class="ico img"><img src="${esc(ic)}" alt="" loading="lazy"></div>`;
@@ -928,6 +1024,7 @@ function render(){
   if(!apps.length && !adminMode) html='<div class="empty">Nessuna app disponibile al momento.</div>';
   html+='<button class="add" onclick="openForm(-1)"><span>+</span>Aggiungi app</button>';
   $("grid").innerHTML=html;
+  requestAnimationFrame(fitTiles);
 }
 function toggleAdmin(){ if(!sess||!sess.dati.admin) return; adminMode=!adminMode; render();
   if(!$("guide").hidden) renderGuide(); if(!$("avvisi").hidden) renderAvvisi(); renderAvvBanner(); }
@@ -1015,7 +1112,7 @@ function dataIt(d){ if(!d) return ""; const [y,m,g]=d.split("-"); return g+"/"+m
 function tipoInfo(k){ return TIPI.find(t=>t.k===k) || TIPI[4]; }
 function imgOrIcon(ic, size){ return isImg(ic) ? `<img src="${esc(ic)}" alt="" style="width:${size}px;height:${size}px">` : ""; }
 
-const VISTE=["home","guide","avvisi","meteo","personale"];
+const VISTE=["home","guide","avvisi","meteo","personale","vault"];
 function showView(v){
   VISTE.forEach(x=>$(x).hidden = x!==v);
   if(v==="guide") renderGuide();
@@ -1309,6 +1406,112 @@ async function syncGuide(){
   catch(e){ setStatus("Nessuna connessione"); }
 }
 
+/* ======================= ICONA PERSONALIZZATA ======================= */
+$("fFile").addEventListener("change", e=>{
+  const f=e.target.files[0]; e.target.value=""; if(!f) return;
+  const img=new Image(), url=URL.createObjectURL(f);
+  img.onload=()=>{
+    let out="";
+    for(const [lato,q] of [[192,.9],[160,.85],[128,.8],[96,.75]]){
+      const c=document.createElement("canvas"); c.width=c.height=lato; const x=c.getContext("2d");
+      const k=Math.min(lato/img.width,lato/img.height), w=img.width*k, h=img.height*k;
+      x.drawImage(img,(lato-w)/2,(lato-h)/2,w,h);
+      out=c.toDataURL("image/webp",q); if(!/^data:image\/webp/.test(out)) out=c.toDataURL("image/png");
+      if(out.length<45000) break;
+    }
+    URL.revokeObjectURL(url);
+    if(out.length>=45000){ $("fErr").textContent="Immagine troppo pesante, prova con un'altra"; return; }
+    fIcon=out; drawPickers();
+  };
+  img.onerror=()=>{ $("fErr").textContent="File non valido"; };
+  img.src=url;
+});
+
+/* ======================= TESSERE ADATTIVE ======================= */
+function fitTiles(){
+  const g=$("grid"); if(!g || $("home").hidden) return;
+  g.style.removeProperty("--ico"); g.style.removeProperty("grid-auto-rows"); g.classList.remove("nodesc");
+  if(adminMode || innerWidth>=700) return;
+  const n=g.querySelectorAll(".tile").length; if(!n) return;
+  const cols=getComputedStyle(g).gridTemplateColumns.split(" ").length||2;
+  const rows=Math.ceil(n/cols), gap=12;
+  const per=Math.max(84,(g.clientHeight-gap*(rows-1))/rows);
+  g.style.gridAutoRows=per+"px";
+  const conDesc = per>=190;
+  const ico=Math.max(40,Math.min(92, per-(conDesc?92:46)));
+  g.style.setProperty("--ico",ico+"px"); g.classList.toggle("nodesc",!conDesc);
+}
+addEventListener("resize",()=>requestAnimationFrame(fitTiles));
+
+/* ======================= CASSAFORTE PIN ======================= */
+let vaultPin="", vaultVoci=[], vaultVisti={};
+function apriVault(){
+  askPin("PIN delle app","Per sicurezza inserisci il tuo PIN", async p=>{
+    const r=await api("vault",{token:sess.token,pin:p});
+    if(r.ok){ vaultPin=p; vaultVoci=r.voci||[]; vaultVisti={}; closePin(); showView("vault"); renderVault(); return ""; }
+    if(r.codice==="SESSIONE"){ closePin(); sessioneScaduta(); return ""; }
+    return r.errore||"PIN errato";
+  });
+}
+function chiudiVault(){ vaultPin=""; vaultVoci=[]; backHome(); }
+function nomeApp(id){ const a=apps.find(x=>x.id===id); return a?a.nome:(id==="SUITE"?"USAR Suite":id==="ALTRO"?"Altro":id); }
+function renderVault(){
+  const ordine=["SUITE"].concat(apps.map(a=>a.id)).concat(["ALTRO"]);
+  const oi=id=>{const i=ordine.indexOf(id);return i<0?999:i;};
+  const list=vaultVoci.map((v,i)=>Object.assign({i},v)).sort((a,b)=>oi(a.app)-oi(b.app)||a.voce.localeCompare(b.voce,"it"));
+  let html="", cur=null;
+  list.forEach(v=>{
+    if(v.app!==cur){ cur=v.app; const a=apps.find(x=>x.id===cur); const ic=a?a.icona:(cur==="SUITE"?"logo-usar.png":"");
+      html+=`<div class="g-group">${imgOrIcon(ic,26)}<span>${esc(nomeApp(cur).toUpperCase())}</span><span class="ln"></span></div>`; }
+    const vis=vaultVisti[v.id];
+    html+=`<div class="vrow"><div style="min-width:0"><div style="font-weight:700">${esc(v.voce)}</div>
+      <div class="vv">${vis?esc(v.valore):"••••••"}</div>
+      <div class="vn">${v.note?esc(v.note)+" · ":""}agg. ${v.agg?quando(v.agg):""}${v.chi?" · "+esc(v.chi):""}</div></div>
+      <div class="vb"><button onclick="vaultVisti['${v.id}']=!vaultVisti['${v.id}'];renderVault()" aria-label="Mostra">${vis?"🙈":"👁"}</button>
+      <button onclick="copiaVoce(${v.i})" aria-label="Copia">📋</button><button onclick="openVoce(${v.i})" aria-label="Modifica">✎</button>
+      <button onclick="askDeleteVoce(${v.i})" aria-label="Elimina" style="color:var(--red2)">🗑</button></div></div>`;
+  });
+  if(!list.length) html='<div class="g-empty"><b>🔐</b>Nessun PIN salvato.<br>Tocca “+ Aggiungi” per inserire i PIN delle app.</div>';
+  $("vList").innerHTML=html;
+}
+async function copiaVoce(i){ try{ await navigator.clipboard.writeText(vaultVoci[i].valore); setStatus("Copiato ✓"); }catch(e){ vaultVisti[vaultVoci[i].id]=true; renderVault(); } }
+let vEdit=-1;
+function openVoce(i){
+  vEdit=i; const v=i>=0?vaultVoci[i]:{app:"SUITE",voce:"",valore:"",note:""};
+  $("vfTitle").textContent=i>=0?"Modifica PIN / codice":"Nuovo PIN / codice";
+  const opts=[["SUITE","USAR Suite"]].concat(apps.map(a=>[a.id,a.nome])).concat([["ALTRO","Altro"]]);
+  $("vfApp").innerHTML=opts.map(o=>`<option value="${esc(o[0])}" ${o[0]===v.app?"selected":""}>${esc(o[1])}</option>`).join("");
+  $("vfVoce").value=v.voce; $("vfVal").value=v.valore; $("vfNote").value=v.note||""; $("vfErr").textContent=""; openModal("voceM");
+}
+async function saveVoce(){
+  const voce={app:$("vfApp").value, voce:$("vfVoce").value.trim(), valore:$("vfVal").value.trim(), note:$("vfNote").value.trim()};
+  if(!voce.voce||!voce.valore){ $("vfErr").textContent="Scrivi cosa è e il PIN/codice"; return; }
+  if(vEdit>=0) voce.id=vaultVoci[vEdit].id;
+  busy($("vfSave"),true);
+  try{ const r=await api("salvaVault",{token:sess.token,pin:vaultPin,voce});
+    if(r.ok){ vaultVoci=r.voci; closeModal("voceM"); renderVault(); setStatus("Salvato ✓"); }
+    else if(r.codice==="SESSIONE"){ closeModal("voceM"); sessioneScaduta(); } else $("vfErr").textContent=r.errore||"Errore"; }
+  catch(e){ $("vfErr").textContent="Nessuna connessione. Riprova."; }
+  busy($("vfSave"),false);
+}
+function askDeleteVoce(i){
+  const v=vaultVoci[i];
+  $("askT").textContent="Eliminare “"+v.voce+"”?"; $("askP").textContent="Viene tolto solo dal promemoria: il PIN nell'app resta com'è.";
+  $("askOk").onclick=async()=>{ closeModal("askM");
+    try{ const r=await api("eliminaVault",{token:sess.token,pin:vaultPin,id:v.id}); if(r.ok){ vaultVoci=r.voci; renderVault(); } }catch(e){} };
+  openModal("askM");
+}
+
+/* ======================= SPLASH ======================= */
+function splash(forza){
+  const app = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  if(!app && !forza) return;
+  const sp=$("splash"); sp.hidden=false; const t0=Date.now();
+  window.chiudiSplash=()=>{ setTimeout(()=>{ sp.classList.add("out"); setTimeout(()=>sp.hidden=true,500); }, Math.max(0,1300-(Date.now()-t0))); };
+  setTimeout(()=>window.chiudiSplash&&window.chiudiSplash(),3500);
+}
+splash(location.hash==="#splash");
+
 /* ======================= METEO ======================= */
 const K_METEO="usarSuite.meteo", K_POS="usarSuite.posizione";
 const WMO={0:["☀️","Sereno"],1:["🌤️","Poco nuvoloso"],2:["⛅","Parz. nuvoloso"],3:["☁️","Coperto"],45:["🌫️","Nebbia"],48:["🌫️","Nebbia"],
@@ -1325,7 +1528,7 @@ async function caricaMeteo(forza){
     let d;
     if(DEMO){ d=demoMeteo(); }
     else{
-      const u=`https://api.open-meteo.com/v1/forecast?latitude=${L.lat}&longitude=${L.lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation&hourly=temperature_2m,weather_code,wind_speed_10m,wind_gusts_10m,precipitation_probability&forecast_hours=12&wind_speed_unit=kmh&timezone=Europe%2FRome`;
+      const u=`https://api.open-meteo.com/v1/forecast?latitude=${L.lat}&longitude=${L.lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation&hourly=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation_probability&forecast_hours=12&wind_speed_unit=kmh&timezone=Europe%2FRome`;
       d=await (await fetch(u)).json();
     }
     meteoDati=d; store.set(K_METEO,{t:Date.now(),lat:L.lat,lon:L.lon,d});
@@ -1337,7 +1540,8 @@ function renderMeteoChip(){
   const c=meteoDati&&meteoDati.current; if(!c){ $("meteoChip").textContent=""; return; }
   const forte = c.wind_gusts_10m>=50;
   const L=luogo();
-  $("meteoChip").innerHTML=`${L.sede?"":"📍 "}${wmo(c.weather_code)[0]} ${Math.round(c.temperature_2m)}° · 💨 ${Math.round(c.wind_speed_10m)} km/h ${dirTxt(c.wind_direction_10m)}${forte?' <span class="mt-warn">⚠️</span>':""}`;
+  const w=wmo(c.weather_code);
+  $("meteoChip").innerHTML=`${L.sede?"":"📍 "}<span class="mi">${w[0]}</span> ${Math.round(c.temperature_2m)}°<span class="mc-t">&nbsp;${w[1]}</span> · 💨 ${Math.round(c.wind_speed_10m)} km/h ${dirTxt(c.wind_direction_10m)}${forte?' <span class="mt-warn">⚠️</span>':""}`;
   $("meteoChip").title = L.sede ? ("Meteo "+L.nome) : "Meteo della tua posizione";
 }
 function renderMeteo(ricarica){
@@ -1346,17 +1550,26 @@ function renderMeteo(ricarica){
   $("mtPos").textContent = L.sede ? "📍 La mia posizione" : "🏠 Torna alla sede";
   $("mtWindy").href=`https://www.windy.com/?${L.lat},${L.lon},10`;
   const d=meteoDati;
-  if(!d||!d.current){ $("mtNow").innerHTML='<div class="ds">Meteo non disponibile senza connessione.</div>'; $("mtGrid").innerHTML=""; $("mtHours").innerHTML=""; }
+  if(!d||!d.current){ $("mtComp").innerHTML=""; $("mtCards").innerHTML='<div class="mt-card" style="grid-column:1/-1">Meteo non disponibile senza connessione.</div>'; $("mtSky").innerHTML=""; $("mtHrs").innerHTML=""; }
   else{
-    const c=d.current, w=wmo(c.weather_code);
-    $("mtNow").innerHTML=`<div class="big">${w[0]}</div><div><div class="tp">${Math.round(c.temperature_2m)}°C</div><div class="ds">${w[1]} · umidità ${c.relative_humidity_2m}%</div></div>`;
-    const forte=c.wind_gusts_10m>=50;
-    $("mtGrid").innerHTML=`
-      <div class="mt-box"><div class="k">VENTO</div><div class="v">${Math.round(c.wind_speed_10m)} <small>km/h</small></div></div>
-      <div class="mt-box" ${forte?'style="border-color:#f2a900"':""}><div class="k">RAFFICHE</div><div class="v ${forte?"mt-warn":""}">${Math.round(c.wind_gusts_10m)} <small>km/h</small></div></div>
-      <div class="mt-box"><div class="k">DIREZIONE</div><div class="v"><span class="arrow" style="transform:rotate(${c.wind_direction_10m+180}deg)">↑</span> ${dirTxt(c.wind_direction_10m)}</div></div>`;
+    const c=d.current, w=wmo(c.weather_code), dir=c.wind_direction_10m, forte=c.wind_gusts_10m>=50;
+    const tacche=Array.from({length:36},(_,i)=>{ const a=i*10*Math.PI/180, r1=i%9===0?52:55, r2=58;
+      return `<line x1="${60+r1*Math.sin(a)}" y1="${60-r1*Math.cos(a)}" x2="${60+r2*Math.sin(a)}" y2="${60-r2*Math.cos(a)}" stroke="#4a5868" stroke-width="${i%9===0?2:1}"/>`; }).join("");
+    $("mtComp").innerHTML=`<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="58" fill="#0b1016" stroke="#324154" stroke-width="2"/>${tacche}
+      <text x="60" y="15" text-anchor="middle" font-size="11" font-weight="800" fill="#e8384f">N</text>
+      <g transform="rotate(${dir} 60 60)"><path d="M60 8 L68 24 L60 20 L52 24 Z" fill="#3b8de0"/></g></svg>
+      <div class="sp">${Math.round(c.wind_speed_10m)}<small>km/h</small></div>`;
+    $("mtCards").innerHTML=`<div class="mt-card"><div class="k">VENTO DA</div><div class="v">${dirTxt(dir)} ${Math.round(dir)}°</div></div>
+      <div class="mt-card ${forte?"warn":""}"><div class="k">RAFFICHE</div><div class="v">${Math.round(c.wind_gusts_10m)} km/h${forte?" ⚠️":""}</div></div>
+      <div class="mt-card"><div class="k">TEMP.</div><div class="v">${Math.round(c.temperature_2m)}°C</div></div>
+      <div class="mt-card"><div class="k">UMIDITÀ</div><div class="v">${c.relative_humidity_2m}%</div></div>`;
+    $("mtSky").innerHTML=`<div class="si">${w[0]}</div><div><div class="k">CIELO</div><div class="v">${w[1]}</div></div>
+      <div class="x">${c.precipitation>0?"💧 "+c.precipitation+" mm ora<br>":""}${forte?'<span class="mt-warn">Raffiche forti</span>':""}</div>`;
     const h=d.hourly||{}; const n=(h.time||[]).length;
-    $("mtHours").innerHTML=Array.from({length:n},(_,i)=>`<div class="mt-h">${h.time[i].slice(11,16)}<b>${wmo(h.weather_code[i])[0]}</b>${Math.round(h.temperature_2m[i])}°<br><span style="color:var(--muted)">💨${Math.round(h.wind_speed_10m[i])}</span>${h.precipitation_probability&&h.precipitation_probability[i]>=30?`<br><span style="color:#6cb6ff">💧${h.precipitation_probability[i]}%</span>`:""}</div>`).join("");
+    $("mtHrs").innerHTML=Array.from({length:n},(_,i)=>{ const g=h.wind_gusts_10m?h.wind_gusts_10m[i]:0, wd=h.wind_direction_10m?h.wind_direction_10m[i]:null;
+      return `<div class="mt-hr ${g>=50?"warn":""}"><div class="t">${h.time[i].slice(11,16)}</div><div class="i">${wmo(h.weather_code[i])[0]}</div>
+      ${wd!==null?`<div class="a" style="transform:rotate(${wd+180}deg)">↑</div>`:""}<div class="w">${Math.round(h.wind_speed_10m[i])}</div>
+      <div>${Math.round(h.temperature_2m[i])}°${h.precipitation_probability?` · <span class="p">${h.precipitation_probability[i]}%</span>`:""}</div></div>`; }).join("");
   }
   const src=`https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=km%2Fh&zoom=8&overlay=wind&product=ecmwf&level=surface&lat=${L.lat}&lon=${L.lon}&detailLat=${L.lat}&detailLon=${L.lon}&marker=true`;
   if(DEMO){ $("mtMap").innerHTML='<div class="ph"><span style="font-size:36px">🗺️</span>Qui compare la mappa del vento di Windy<br><small>(visibile nella suite online)</small></div>'; }
@@ -1392,11 +1605,12 @@ function demoMeteo(){
   const now=new Date(); const t=i=>{ const d=new Date(now.getTime()+i*36e5); return d.toISOString().slice(0,11)+String(d.getHours()).padStart(2,"0")+":00"; };
   return {current:{temperature_2m:17.6,relative_humidity_2m:64,weather_code:2,wind_speed_10m:24,wind_direction_10m:315,wind_gusts_10m:41,precipitation:0},
     hourly:{time:[...Array(12)].map((_,i)=>t(i)),temperature_2m:[18,18,19,19,18,17,16,15,15,14,14,13],weather_code:[2,2,1,1,2,3,3,61,61,3,2,2],
-      wind_speed_10m:[24,26,28,30,27,22,20,18,16,15,14,12],wind_gusts_10m:[41,44,52,55,47,38,33,30,28,25,24,22],precipitation_probability:[0,0,5,10,20,35,55,70,60,30,10,5]}};
+      wind_speed_10m:[24,26,28,30,27,22,20,18,16,15,14,12],wind_direction_10m:[315,310,300,290,285,280,270,260,250,250,240,230],wind_gusts_10m:[41,44,52,55,47,38,33,30,28,25,24,22],precipitation_probability:[0,0,5,10,20,35,55,70,60,30,10,5]}};
 }
 
 /* ======================= AVVIO ======================= */
 async function start(){
+  setTimeout(()=>window.chiudiSplash&&window.chiudiSplash(),50);
   $("ver").textContent=CONFIG.VERSIONE;
   buildPad();
   $("inCode").addEventListener("keydown",e=>{ if(e.key==="Enter") stepCode(); });
