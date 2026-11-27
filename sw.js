@@ -1,6 +1,6 @@
 // USAR-SAR01 SUITE - permette di aprire la suite anche senza rete
-const CACHE = 'usar-suite-v4';
-const FILES = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'logo-vvf.png', 'logo-usar.png',
+const CACHE = 'usar-suite-v5';
+const FILES = ['./', 'index.html', 'manifest.json', 'icon-v27-192.png', 'icon-v27-512.png', 'logo-vvf.png', 'logo-usar.png',
   'app-attivazioni.png', 'app-logistica.png', 'app-accessi.png', 'app-usartac.png', 'app-posizione.png', 'app-quadro.png', 'logo-scritta.png', 'icon-splash-512.png'];
 
 self.addEventListener('install', e => {

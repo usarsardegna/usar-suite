@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="USAR Suite">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon-192.png">
+<link rel="icon" href="icon-v27-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 :root{
@@ -313,12 +313,16 @@ body.admin .g-sync{display:block}
 .grid.nodesc .tile{padding:8px 6px;gap:4px}
 .grid.nodesc .tile .t{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 /* ===== SPLASH ===== */
-#splash{position:fixed;inset:0;z-index:50;background:radial-gradient(900px 600px at 50% 35%,rgba(200,16,46,.25),transparent 70%),#11161d;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .45s}
+#splash{position:fixed;inset:0;z-index:50;background:#11161d;transition:opacity .45s;overflow:hidden}
+#splash::before{content:"";position:absolute;inset:0;background:radial-gradient(900px 600px at 50% 38%,rgba(200,16,46,.28),transparent 70%);opacity:0;animation:fade .7s .35s forwards}
+#splash .box{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
 #splash.out{opacity:0;pointer-events:none}
-#splash .sl{width:min(60vw,290px);height:auto;filter:drop-shadow(0 10px 24px rgba(0,0,0,.6));animation:pop .6s ease-out}
-#splash .ss{width:min(66vw,320px);height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));animation:pop .6s .1s ease-out both}
-#splash .st{font-size:13px;letter-spacing:4px;color:#9aa8b8;font-weight:700}
+#splash .sl{width:min(60vw,290px);height:auto;filter:drop-shadow(0 10px 24px rgba(0,0,0,.6));animation:cresci .8s cubic-bezier(.2,.8,.2,1) both}
+#splash .ss{width:min(66vw,320px);height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));animation:sale .6s .45s ease-out both}
+#splash .st{font-size:13px;letter-spacing:4px;color:#9aa8b8;font-weight:700;animation:fade .5s .75s both}
+@keyframes cresci{from{transform:translateY(var(--dy,120px)) scale(var(--s0,.33))}to{transform:none}}
+@keyframes sale{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
 /* ===== CASSAFORTE PIN ===== */
 .vault-strip{display:none;flex-shrink:0;align-items:center;gap:10px;width:100%;margin:0 0 12px;padding:11px 14px;border-radius:14px;
@@ -373,7 +377,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
 </head>
 <body>
 
-<div id="splash" hidden><img class="sl" src="icon-splash-512.png" alt=""><img class="ss" src="logo-scritta.png" alt="Team USAR Sardegna"><div class="st">USAR-SAR01 SUITE</div></div>
+<div id="splash" hidden><div class="box"><img class="sl" id="spL" src="icon-splash-512.png" alt=""><img class="ss" src="logo-scritta.png" alt="Team USAR Sardegna"><div class="st">USAR-SAR01 SUITE</div></div></div>
 <header>
   <div class="wrap hdr">
     <div class="logos">
@@ -701,7 +705,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.7",
+  VERSIONE: "2.7.1",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
@@ -1506,8 +1510,12 @@ function askDeleteVoce(i){
 function splash(forza){
   const app = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
   if(!app && !forza) return;
-  const sp=$("splash"); sp.hidden=false; const t0=Date.now();
-  window.chiudiSplash=()=>{ setTimeout(()=>{ sp.classList.add("out"); setTimeout(()=>sp.hidden=true,500); }, Math.max(0,1300-(Date.now()-t0))); };
+  const sp=$("splash"), L=$("spL");
+  const w=Math.min(innerWidth*.6,290), ws=Math.min(innerWidth*.66,320), hs=ws*235/516;
+  const tot=w+18+hs+18+16, cy=innerHeight/2-tot/2+w/2;
+  L.style.setProperty("--s0",(112/w).toFixed(3)); L.style.setProperty("--dy",(innerHeight/2-cy).toFixed(0)+"px");
+  sp.hidden=false; const t0=Date.now();
+  window.chiudiSplash=()=>{ setTimeout(()=>{ sp.classList.add("out"); setTimeout(()=>sp.hidden=true,500); }, Math.max(0,1700-(Date.now()-t0))); };
   setTimeout(()=>window.chiudiSplash&&window.chiudiSplash(),3500);
 }
 splash(location.hash==="#splash");
