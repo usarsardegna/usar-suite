@@ -105,6 +105,8 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
   .hero-acts button{padding:6px 8px;font-size:12px}
 }
 body.admin .grid{grid-auto-rows:max-content;align-content:start}
+body.scorre #home{flex:none;min-height:auto}
+body.scorre .grid{flex:none;min-height:0;overflow:visible;align-content:start}
 body.admin .tile{flex-shrink:0;height:auto}
 body.admin .tile{overflow:visible;min-height:0;justify-content:flex-start}
 body.admin .tile .d{display:none}
@@ -724,7 +726,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.8.0",
+  VERSIONE: "2.8.1",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
@@ -1145,7 +1147,7 @@ function showView(v){
   if(v==="personale") caricaPersonale();
 }
 function showGuide(){ showView("guide"); }
-function backHome(){ showView("home"); renderAvvBanner(); }
+function backHome(){ showView("home"); renderAvvBanner(); requestAnimationFrame(fitTiles); }
 function aggiornaStrip(){
   const g=guide(), nuove=g.filter(isNuova).length;
   $("nGuide").innerHTML = g.length ? g.length+`<span class="lbl">${g.length===1?" documento":" documenti"}</span>`+(nuove?`<span class="gs-new">${nuove} NUOV${nuove===1?"A":"E"}</span>`:"") : "";
@@ -1454,17 +1456,31 @@ $("fFile").addEventListener("change", e=>{
 /* ======================= TESSERE ADATTIVE ======================= */
 function fitTiles(){
   const g=$("grid"); if(!g || $("home").hidden) return;
+  const B=document.body;
   g.style.removeProperty("--ico"); g.style.removeProperty("grid-auto-rows"); g.style.removeProperty("grid-template-columns"); g.classList.remove("nodesc","c3");
-  if(adminMode || innerWidth>=700) return;
+  B.classList.remove("scorre");
+  // gestione: la pagina scorre tutta insieme (niente riquadro con barra interna)
+  if(adminMode){ B.classList.add("scorre"); return; }
   const n=g.querySelectorAll(".tile").length; if(!n) return;
   const gap=12, H=g.clientHeight, perDi=c=>{ const r=Math.ceil(n/c); return (H-gap*(r-1))/r; };
+  const st=g.querySelector(".st")?18:0;
   let cols=getComputedStyle(g).gridTemplateColumns.split(" ").length||2;
-  // da 7 app in su, se in 2 colonne le tessere verrebbero troppo basse: 3 colonne
+  if(innerWidth>=700){
+    // computer e tablet: le tessere riempiono lo spazio; se non ci stanno, scorre la pagina intera
+    const per=perDi(cols);
+    if(per<150){ B.classList.add("scorre"); g.style.gridAutoRows="210px"; g.style.setProperty("--ico",(210-96-st)+"px"); return; }
+    const h=Math.min(per,250); g.style.gridAutoRows=h+"px";
+    const conDesc=h>=170;
+    g.style.setProperty("--ico",Math.max(48,Math.min(112,h-(conDesc?96:56)-st))+"px"); g.classList.toggle("nodesc",!conDesc);
+    return;
+  }
+  // telefono: tutto in una schermata
   if(cols===2 && n>6 && perDi(2)<104 && g.clientWidth>=320){ cols=3; g.style.gridTemplateColumns="repeat(3,minmax(0,1fr))"; g.classList.add("c3"); }
-  const per=Math.max(84,perDi(cols));
+  let per=perDi(cols);
+  if(per<84){ B.classList.add("scorre"); per=112; }   // schermo molto piccolo: scorre la pagina intera
   g.style.gridAutoRows=per+"px";
   const conDesc = per>=190;
-  const extra=(g.querySelector(".st")?16:0)+(cols===3?14:0);
+  const extra=(st?16:0)+(cols===3?14:0);
   const ico=Math.max(36,Math.min(92, per-(conDesc?92:46)-extra));
   g.style.setProperty("--ico",ico+"px"); g.classList.toggle("nodesc",!conDesc);
 }
