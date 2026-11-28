@@ -105,6 +105,7 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
   .hero-acts button{padding:6px 8px;font-size:12px}
 }
 body.admin .grid{grid-auto-rows:max-content;align-content:start}
+body:not(.scorre):not(.admin) .grid{overflow:hidden}
 body.scorre #home{flex:none;min-height:auto}
 body.scorre .grid{flex:none;min-height:0;overflow:visible;align-content:start}
 body.admin .tile{flex-shrink:0;height:auto}
@@ -726,7 +727,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.8.2",
+  VERSIONE: "2.8.3",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
@@ -1462,7 +1463,7 @@ function fitTiles(){
   // gestione: la pagina scorre tutta insieme (niente riquadro con barra interna)
   if(adminMode){ B.classList.add("scorre"); return; }
   const n=g.querySelectorAll(".tile").length; if(!n) return;
-  const gap=12, H=g.clientHeight, perDi=c=>{ const r=Math.ceil(n/c); return (H-gap*(r-1))/r; };
+  const gap=12, H=g.clientHeight-6, perDi=c=>{ const r=Math.ceil(n/c); return Math.floor((H-gap*(r-1))/r); };
   const st=g.querySelector(".st")?18:0;
   let cols=getComputedStyle(g).gridTemplateColumns.split(" ").length||2;
   if(innerWidth>=700){
