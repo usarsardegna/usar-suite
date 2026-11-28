@@ -122,6 +122,16 @@ body.admin .ico.img{width:64px;height:64px}
 .ico.img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
 .tile .t{font-weight:800;font-size:15.5px;line-height:1.2;position:relative;z-index:1}
 .tile .d{font-size:12px;color:var(--muted);line-height:1.3;position:relative;z-index:1}
+.pall{position:absolute;top:10px;right:10px;z-index:2;min-width:26px;height:26px;padding:0 7px;border-radius:13px;font-weight:800;font-size:14px;line-height:26px;text-align:center;color:#fff;box-shadow:0 0 0 2px #18202a,0 2px 6px rgba(0,0,0,.45)}
+.pall.r{background:#e8384f} .pall.o{background:#f28c00}
+.tile .st{font-size:11.5px;font-weight:700;color:#cfd8e3;position:relative;z-index:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tile .warn{font-size:11.5px;font-weight:800;color:#f2c14a;position:relative;z-index:1}
+body.admin .pall,body.admin .tile .st{display:none}
+.ctrl-banner{flex-shrink:0;display:flex;align-items:center;gap:10px;margin:clamp(8px,1.6vh,12px) 0 0;padding:9px 10px 9px 12px;border-radius:12px;
+  background:linear-gradient(90deg,rgba(200,16,46,.32),rgba(200,16,46,.10));border:1px solid rgba(232,56,79,.65);color:#fff;text-decoration:none;font-size:13.5px;line-height:1.3}
+.ctrl-banner .ci{font-size:18px;flex-shrink:0}
+.ctrl-banner .ct{min-width:0;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.ctrl-banner .co{flex-shrink:0;font-weight:800;background:#c8102e;border-radius:8px;padding:6px 10px;font-size:13px;white-space:nowrap}
 .tools{display:none;gap:6px;margin-top:auto;width:100%;position:relative;z-index:1}
 body.admin .tools{display:flex}
 .tools button{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:7px 0;font-size:14px}
@@ -315,6 +325,11 @@ body.admin .g-sync{display:block}
 .grid.nodesc .tile .d{display:none}
 .grid.nodesc .tile{padding:8px 6px;gap:4px}
 .grid.nodesc .tile .t{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.grid.c3{gap:10px}
+.grid.c3 .tile{padding:8px 4px 6px}
+.grid.c3 .tile .t{font-size:12.5px;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.15}
+.grid.c3 .tile .st{font-size:10.5px}
+.grid.c3 .pall{top:7px;right:6px;min-width:22px;height:22px;line-height:22px;font-size:12.5px;padding:0 6px}
 /* ===== SPLASH ===== */
 #splash{position:fixed;inset:0;z-index:50;background:#11161d;transition:opacity .45s;overflow:hidden}
 #splash::before{content:"";position:absolute;inset:0;background:radial-gradient(900px 600px at 50% 38%,rgba(200,16,46,.28),transparent 70%);opacity:0;animation:fade .7s .35s forwards}
@@ -440,6 +455,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
 
   <!-- ================= HOME ================= -->
   <section id="home" hidden>
+    <a class="ctrl-banner" id="ctrlBanner" target="_blank" rel="noopener" hidden></a>
     <div class="hero">
       <img src="logo-usar.png" alt="">
       <div class="hero-txt">
@@ -708,13 +724,13 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.7.2",
+  VERSIONE: "2.8.0",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
 
 /* Loghi delle app presenti nella cartella (scelta rapida nel modulo) */
-const LOGHI = ["app-attivazioni.png","app-logistica.png","app-accessi.png","app-usartac.png","app-posizione.png","app-quadro.png"];
+const LOGHI = ["app-attivazioni.png","app-logistica.png","app-accessi.png","app-usartac.png","app-posizione.png","app-quadro.png","app-controlli.png"];
 
 const ICONS = {
   attivazioni:'<path d="M7 18v-6a5 5 0 0 1 10 0v6"/><path d="M5 21h14v-3H5z"/><path d="M12 2v2M4.2 5.2l1.4 1.4M19.8 5.2l-1.4 1.4M2 12h2M20 12h2"/>',
@@ -768,6 +784,7 @@ function demoDb(){
     apps:[
       {id:"ATTIVAZIONI",nome:"Attivazioni",descrizione:"Attivazione squadre e disponibilità",link:"https://esempio.it",icona:"app-attivazioni.png",colore:"#c8102e"},
       {id:"LOGISTICA",nome:"Logistica",descrizione:"Uscite e rientri attrezzature",link:"https://esempio.it",icona:"app-logistica.png",colore:"#e07a10"},
+      {id:"CONTROLLI",nome:"Controlli",descrizione:"Controlli periodici mezzi e magazzino",link:"https://script.google.com/macros/s/DEMO/exec?c=TUTTI",icona:"app-controlli.png",colore:"#2fb36d"},
       {id:"ACCESSI",nome:"Accessi Area Rossa",descrizione:"Ingressi e uscite dal cantiere",link:"https://esempio.it",icona:"app-accessi.png",colore:"#f2a900"},
       {id:"USARTAC",nome:"USAR-TAC",descrizione:"Edificio 3D e settori di ricerca",link:"https://esempio.it",icona:"app-usartac.png",colore:"#1f6fb2"},
       {id:"POSIZIONE",nome:"La mia posizione",descrizione:"Tracciamento posizione squadre",link:"https://esempio.it",icona:"app-posizione.png",colore:"#2fb36d"},
@@ -966,7 +983,7 @@ function entra(r){
 }
 function logout(){
   if(sess) api("esci",{token:sess.token}).catch(()=>{});
-  sess=null; store.del(K_SESS); adminMode=false; document.body.classList.remove("admin");
+  sess=null; ctrl=null; store.del(K_SESS); adminMode=false; document.body.classList.remove("admin");
   showAuth();
 }
 
@@ -1010,7 +1027,7 @@ function showHome(statusTxt){
   apps = d.apps||[];
   $("btnAdmin").hidden = !d.admin;
   VISTE.forEach(x=>$(x).hidden = x!=="home");
-  render(); aggiornaStrip(); renderAvvBanner(); caricaMeteo(); aggiornaPosizioneAuto(); setStatus(statusTxt);
+  render(); aggiornaStrip(); renderAvvBanner(); renderCtrlBanner(); leggiControlli(); caricaMeteo(); aggiornaPosizioneAuto(); setStatus(statusTxt);
   popupUrgente();
 }
 function render(){
@@ -1020,7 +1037,7 @@ function render(){
   let html = apps.map((a,i)=>`
     <a class="tile" href="${esc(safeLink(a.link))}" target="_blank" rel="noopener" style="--c:${safeColor(a.colore)}" ${adminMode?'onclick="event.preventDefault()"':''}>
       ${iconHtml(a.icona)}
-      <div class="t">${esc(a.nome)}</div><div class="d">${esc(a.descrizione)}</div>
+      <div class="t">${esc(a.nome)}</div><div class="d">${esc(a.descrizione)}</div>${isCtrl(a)?ctrlHtml():""}${adminMode&&/^https:\/\/script\.google\.com\/.*\/dev(?:[?#]|$)/i.test(String(a.link).trim())?'<div class="warn">⚠️ link /dev: usa /exec</div>':""}
       <div class="tools">
         <button onclick="move(${i},-1)" aria-label="Sposta prima" ${i===0?'disabled':''}>◀</button>
         <button onclick="openForm(${i})" aria-label="Modifica">✎</button>
@@ -1035,7 +1052,7 @@ function render(){
 }
 function toggleAdmin(){ if(!sess||!sess.dati.admin) return; adminMode=!adminMode; render();
   if(!$("guide").hidden) renderGuide(); if(!$("avvisi").hidden) renderAvvisi(); renderAvvBanner(); }
-function aggiornaApps(list, msg){ apps=list; sess.dati.apps=list; store.set(K_SESS,sess); render(); if(msg) setStatus(msg); }
+function aggiornaApps(list, msg){ apps=list; sess.dati.apps=list; store.set(K_SESS,sess); render(); if(msg) setStatus(msg); leggiControlli(); }
 function sessioneScaduta(){ logout(); showAuth("Accesso scaduto: inserisci il PIN"); }
 
 /* ======================= GESTIONE APP ======================= */
@@ -1437,18 +1454,83 @@ $("fFile").addEventListener("change", e=>{
 /* ======================= TESSERE ADATTIVE ======================= */
 function fitTiles(){
   const g=$("grid"); if(!g || $("home").hidden) return;
-  g.style.removeProperty("--ico"); g.style.removeProperty("grid-auto-rows"); g.classList.remove("nodesc");
+  g.style.removeProperty("--ico"); g.style.removeProperty("grid-auto-rows"); g.style.removeProperty("grid-template-columns"); g.classList.remove("nodesc","c3");
   if(adminMode || innerWidth>=700) return;
   const n=g.querySelectorAll(".tile").length; if(!n) return;
-  const cols=getComputedStyle(g).gridTemplateColumns.split(" ").length||2;
-  const rows=Math.ceil(n/cols), gap=12;
-  const per=Math.max(84,(g.clientHeight-gap*(rows-1))/rows);
+  const gap=12, H=g.clientHeight, perDi=c=>{ const r=Math.ceil(n/c); return (H-gap*(r-1))/r; };
+  let cols=getComputedStyle(g).gridTemplateColumns.split(" ").length||2;
+  // da 7 app in su, se in 2 colonne le tessere verrebbero troppo basse: 3 colonne
+  if(cols===2 && n>6 && perDi(2)<104 && g.clientWidth>=320){ cols=3; g.style.gridTemplateColumns="repeat(3,minmax(0,1fr))"; g.classList.add("c3"); }
+  const per=Math.max(84,perDi(cols));
   g.style.gridAutoRows=per+"px";
   const conDesc = per>=190;
-  const ico=Math.max(40,Math.min(92, per-(conDesc?92:46)));
+  const extra=(g.querySelector(".st")?16:0)+(cols===3?14:0);
+  const ico=Math.max(36,Math.min(92, per-(conDesc?92:46)-extra));
   g.style.setProperty("--ico",ico+"px"); g.classList.toggle("nodesc",!conDesc);
 }
 addEventListener("resize",()=>requestAnimationFrame(fitTiles));
+
+/* ======================= CONTROLLI PERIODICI (App Logistica) =======================
+   La tessera "Controlli" e' quella il cui link e' l'app Logistica (/exec) con ?c=TUTTI.
+   Il link sta solo nel foglio APP (non qui su GitHub). Si leggono solo nomi dei controlli e numeri. */
+let ctrl=null, ctrlTimer=null, ctrlSeq=0, ctrlOra=0, ctrlInCorso=false;
+function isCtrl(a){ return /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec\?(?:[^#]*&)?c=TUTTI(?:&|#|$)/i.test(String(a&&a.link||"").trim()); }
+function ctrlApp(){ return (apps||[]).find(isCtrl); }
+function ctrlHtml(){
+  if(!ctrl) return "";
+  const s=ctrl.scaduti, m=ctrl.inScadenza;
+  if(s>0) return `<span class="pall r">${s}</span><div class="st">🔴 ${s} scadut${s===1?"o":"i"}${m?` · 🟠 ${m}`:""}</div>`;
+  if(m>0) return `<span class="pall o">${m}</span><div class="st">🟠 ${m} in scadenza</div>`;
+  return `<div class="st">🟢 tutto in regola</div>`;
+}
+function renderCtrlBanner(){
+  const b=$("ctrlBanner"), a=ctrlApp();
+  if(!ctrl || !a || !ctrl.scaduti){ b.hidden=true; return; }
+  const n=ctrl.scaduti;
+  const nomi=ctrl.elenco.filter(x=>x.stato==="SCADUTO").map(x=>x.nome);
+  const lista=nomi.slice(0,4).join(" · ")+(nomi.length>4?" …":"");
+  b.href=safeLink(String(a.link).trim());
+  b.innerHTML=`<span class="ci">⚠️</span><span class="ct"><b>${n} controll${n===1?"o scaduto":"i scaduti"}</b>${lista?": "+esc(lista):""}</span><span class="co">Apri ›</span>`;
+  b.hidden=false;
+}
+function ctrlPulisci(d){
+  if(!d || d.ok!==true) throw new Error("dati");
+  const num=v=>{ v=Number(v); return Number.isFinite(v)&&v>0?Math.floor(v):0; };
+  const elenco=(Array.isArray(d.elenco)?d.elenco:[]).slice(0,60)
+    .map(x=>({nome:String(x&&x.nome||"").trim().slice(0,60), stato:String(x&&x.stato||"").trim().toUpperCase()})).filter(x=>x.nome);
+  return {scaduti:num(d.scaduti), inScadenza:num(d.inScadenza), elenco};
+}
+function ctrlJsonp(url){
+  return new Promise((ok,ko)=>{
+    const cb="usarCtrl_"+Date.now()+"_"+(++ctrlSeq), s=document.createElement("script");
+    const fine=(f,v)=>{ clearTimeout(t); window[cb]=function(){}; s.remove(); f(v); };
+    const t=setTimeout(()=>fine(ko,new Error("tempo")),12000);
+    window[cb]=d=>fine(ok,d); s.onerror=()=>fine(ko,new Error("rete"));
+    s.src=url+"&callback="+cb; document.head.appendChild(s);
+  });
+}
+async function leggiControlli(){
+  const a=ctrlApp();
+  if(!a){ if(ctrl){ ctrl=null; render(); } renderCtrlBanner(); return; }
+  if(ctrlInCorso) return; ctrlInCorso=true;
+  let d=null;
+  try{
+    if(DEMO){ d=ctrlPulisci({ok:true,scaduti:2,inScadenza:3,inRegola:5,elenco:[{nome:"Controllo DUCATO",stato:"SCADUTO",giorni:-3},{nome:"Batterie in carica",stato:"SCADUTO",giorni:null},{nome:"Radio cariche",stato:"IN SCADENZA",giorni:1}]}); }
+    else{
+      const url=String(a.link).trim().split(/[?#]/)[0]+"?api=controlli";
+      try{
+        const ac=new AbortController(), t=setTimeout(()=>ac.abort(),10000);
+        const r=await fetch(url,{signal:ac.signal,cache:"no-store",redirect:"follow"}); clearTimeout(t);
+        d=ctrlPulisci(await r.json());
+      }catch(e){ d=ctrlPulisci(await ctrlJsonp(url)); }   // piano B: JSONP
+    }
+  }catch(e){ d=null; }                                     // nessuna rete o errore: niente pallino, niente messaggi
+  ctrlInCorso=false; ctrlOra=Date.now();
+  if(!sess) return;
+  ctrl=d; renderCtrlBanner(); render();
+}
+ctrlTimer=setInterval(()=>{ if(sess && document.visibilityState==="visible") leggiControlli(); }, 5*60000);
+document.addEventListener("visibilitychange",()=>{ if(sess && document.visibilityState==="visible" && Date.now()-ctrlOra>5*60000) leggiControlli(); });
 
 /* ======================= CASSAFORTE PIN ======================= */
 let vaultPin="", vaultVoci=[], vaultVisti={};
