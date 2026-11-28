@@ -726,7 +726,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.8.1",
+  VERSIONE: "2.8.2",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
@@ -786,7 +786,7 @@ function demoDb(){
     apps:[
       {id:"ATTIVAZIONI",nome:"Attivazioni",descrizione:"Attivazione squadre e disponibilità",link:"https://esempio.it",icona:"app-attivazioni.png",colore:"#c8102e"},
       {id:"LOGISTICA",nome:"Logistica",descrizione:"Uscite e rientri attrezzature",link:"https://esempio.it",icona:"app-logistica.png",colore:"#e07a10"},
-      {id:"CONTROLLI",nome:"Controlli",descrizione:"Controlli periodici mezzi e magazzino",link:"https://script.google.com/macros/s/DEMO/exec?c=TUTTI",icona:"app-controlli.png",colore:"#2fb36d"},
+      {id:"CONTROLLI",nome:"Controlli",descrizione:"Controlli periodici mezzi e magazzino",link:"https://script.google.com/macros/s/DEMO/exec?ctl=TUTTI",icona:"app-controlli.png",colore:"#2fb36d"},
       {id:"ACCESSI",nome:"Accessi Area Rossa",descrizione:"Ingressi e uscite dal cantiere",link:"https://esempio.it",icona:"app-accessi.png",colore:"#f2a900"},
       {id:"USARTAC",nome:"USAR-TAC",descrizione:"Edificio 3D e settori di ricerca",link:"https://esempio.it",icona:"app-usartac.png",colore:"#1f6fb2"},
       {id:"POSIZIONE",nome:"La mia posizione",descrizione:"Tracciamento posizione squadre",link:"https://esempio.it",icona:"app-posizione.png",colore:"#2fb36d"},
@@ -1490,7 +1490,7 @@ addEventListener("resize",()=>requestAnimationFrame(fitTiles));
    La tessera "Controlli" e' quella il cui link e' l'app Logistica (/exec) con ?c=TUTTI.
    Il link sta solo nel foglio APP (non qui su GitHub). Si leggono solo nomi dei controlli e numeri. */
 let ctrl=null, ctrlTimer=null, ctrlSeq=0, ctrlOra=0, ctrlInCorso=false;
-function isCtrl(a){ return /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec\?(?:[^#]*&)?c=TUTTI(?:&|#|$)/i.test(String(a&&a.link||"").trim()); }
+function isCtrl(a){ return /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec\?(?:[^#]*&)?(?:c|ctl)=TUTTI(?:&|#|$)/i.test(String(a&&a.link||"").trim()); }
 function ctrlApp(){ return (apps||[]).find(isCtrl); }
 function ctrlHtml(){
   if(!ctrl) return "";
