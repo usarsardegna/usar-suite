@@ -736,7 +736,7 @@ label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-wei
    Vuoto = modalità dimostrazione (dati finti).
    ===================================================================== */
 const CONFIG = {
-  VERSIONE: "2.9.0",
+  VERSIONE: "2.9.1",
   API_URL: "https://script.google.com/macros/s/AKfycbzWhhKI_ND0NqDMvIM7drITZUeSYTgPDtfggG2rHPvzBc9WPWX2fQFitSPwbYqSs1N5xA/exec",
   PIN_LEN: 6
 };
@@ -1500,7 +1500,7 @@ function fitTiles(){
   if(innerWidth>=700){
     // computer e tablet: le tessere riempiono lo spazio; se non ci stanno, scorre la pagina intera
     const per=perDi(cols);
-    if(per<150){ B.classList.add("scorre"); g.style.gridAutoRows="210px"; g.style.setProperty("--ico",(210-96-st)+"px"); return; }
+    if(per<118){ B.classList.add("scorre"); g.style.gridAutoRows="210px"; g.style.setProperty("--ico",(210-96-st)+"px"); return; }
     const h=Math.min(per,250); g.style.gridAutoRows=h+"px";
     const conDesc=h>=170;
     g.style.setProperty("--ico",Math.max(48,Math.min(112,h-(conDesc?96:56)-st))+"px"); g.classList.toggle("nodesc",!conDesc);
